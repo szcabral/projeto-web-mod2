@@ -39,6 +39,13 @@
 
 ### 3.1. Modelagem do banco de dados  (Semana 3)
 
+<div align="center">
+   <sub>Imagem 1: Diagrama de modelo relacional.</sub><br>
+   <img src="../assets/diagram_relacional.PNG" width="100%" 
+   alt="Título"><br>
+   <sup>Fonte: Fresh Muse, 2025 (Autoral)</sup>
+ </div>
+
 *Posicione aqui os diagramas de modelos relacionais do seu banco de dados, apresentando todos os esquemas de tabelas e suas relações. Utilize texto para complementar suas explicações, se necessário.*
 
 *Posicione também o modelo físico com o Schema do BD (arquivo .sql)*
