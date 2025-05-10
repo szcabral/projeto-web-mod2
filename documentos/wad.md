@@ -18,9 +18,16 @@
 
 ## <a name="c1"></a>1. Introdução (Semana 01)
 
+<div align="center">
+   <sub>Imagem 1: Logo da marca.</sub><br>
+   <img src="../assets/fresh_muse.png" width="100%" 
+   alt="Título"><br>
+   <sup>Fonte: Fresh Muse, 2025 (Autoral)</sup>
+ </div>
+
 A Fresh Muse é uma empresa do setor de eventos que busca estruturar e otimizar seus processos internos e externos, oferecendo soluções mais sólidas e dinâmicas tanto para seus colaboradores quanto para seus clientes. Com foco em tecnologia, criatividade e excelência, a empresa visa aprimorar a experiência de todos os envolvidos.
 
-Neste documento, será apresentado um modelo estratégico para o desenvolvimento do site institucional da Fresh Muse, alinhado às suas demandas operacionais, de comunicação e de atendimento. Focando principalmente nas dores do parceiro de projeto.
+Neste documento, será apresentado um modelo estratégico para o desenvolvimento do site institucional da Fresh Muse, alinhado às suas demandas operacionais, de comunicação e de atendimento. Focando principalmente nas dores da operação da empresa.
 
 
 ---
