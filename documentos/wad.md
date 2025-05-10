@@ -2,9 +2,9 @@
 
 **_Os trechos em itálico servem apenas como guia para o preenchimento da seção. Por esse motivo, não devem fazer parte da documentação final._**
 
-## Nome do Projeto
+## Fresh Muse
 
-#### Autor do projeto
+#### Autor: Isabela Szolnoky Ferreira Cabral Souza da Conceição
 
 ## Sumário
 
@@ -18,8 +18,10 @@
 
 ## <a name="c1"></a>1. Introdução (Semana 01)
 
-*Preencha com até 300 palavras – sem necessidade de fonte.*
-*Descreva brevemente o sistema que você irá desenvolver.*
+A Fresh Muse é uma empresa do setor de eventos que busca estruturar e otimizar seus processos internos e externos, oferecendo soluções mais sólidas e dinâmicas tanto para seus colaboradores quanto para seus clientes. Com foco em tecnologia, criatividade e excelência, a empresa visa aprimorar a experiência de todos os envolvidos.
+
+Neste documento, será apresentado um modelo estratégico para o desenvolvimento do site institucional da Fresh Muse, alinhado às suas demandas operacionais, de comunicação e de atendimento. Focando principalmente nas dores do parceiro de projeto.
+
 
 ---
 
@@ -45,8 +47,21 @@
    alt="Título"><br>
    <sup>Fonte: Fresh Muse, 2025 (Autoral)</sup>
  </div>
+ 
 
-*Posicione aqui os diagramas de modelos relacionais do seu banco de dados, apresentando todos os esquemas de tabelas e suas relações. Utilize texto para complementar suas explicações, se necessário.*
+O modelo de dados para a empresa Fresh Muse de eventos é composto por várias tabelas que representam os elementos essenciais da operação e gestão do cliente e funcionários.
+
+Os clientes são as pessoas que contratam os serviços da empresa. Cada cliente possui dados pessoais como nome, email, telefone, CPF e senha. Um cliente pode contratar vários eventos, mas cada evento está vinculado a um único cliente, sendo caracterizado como uma relação “1:n”.
+
+Os eventos contêm informações como título, data, horário e preço. Um evento pode contar com diversos serviços, como buffet, iluminação e som, e esses serviços são registrados em uma tabela separada de acordo com o diagrama acima. O relacionamento entre eventos e serviços é de “n:n”, ou seja, um evento pode incluir vários serviços e um mesmo serviço pode ser usado em diferentes eventos.
+
+Além disso, os eventos são organizados por funcionários, profissionais da empresa com diferentes cargos, como técnicos ou coordenadores. O relacionamento entre eventos e funcionários também é de “n:n”, sendo que vários funcionários podem atuar em um evento, e um mesmo funcionário pode estar presente em vários eventos.
+
+A empresa também controla a disponibilidade e o agendamento dos funcionários por meio da tabela de agendamentos, que registra a data, o horário, o tipo de atividade e se o horário está disponível, evitando desacordos entre os clientes e contribuindo para uma gestão estratégica. Cada agendamento está associado a um funcionário e pode estar vinculado a um evento. Assim, é possível saber quando um funcionário estará disponível para um trabalho específico ou quando ele está reservado para outro evento.
+
+Facilitando, portanto, uma maior organização da Fresh Muse para melhor gestão operacional e atendimento ao cliente.
+
+
 
 
 ```sql
