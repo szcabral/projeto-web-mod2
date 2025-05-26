@@ -1,0 +1,51 @@
+const express = require('express');
+const router = express.Router();
+
+const clienteController = require('../controllers/clienteController');
+const funcionarioController = require('../controllers/funcionarioController');
+const servicoController = require('../controllers/servicoController');
+const eventoController = require('../controllers/eventoController');
+const agendamentoController = require('../controllers/agendamentoController');
+
+
+router.get('/clientes', clienteController.listarTodos);
+router.get('/clientes/:id', clienteController.buscarPorId);
+router.post('/clientes', clienteController.criar);
+router.put('/clientes/:id', clienteController.atualizar);
+router.delete('/clientes/:id', clienteController.deletar);
+router.post('/clientes/login', clienteController.login);
+router.get('/funcionarios', funcionarioController.listarTodos);
+router.get('/funcionarios/:id', funcionarioController.buscarPorId);
+router.post('/funcionarios', funcionarioController.criar);
+router.put('/funcionarios/:id', funcionarioController.atualizar);
+router.delete('/funcionarios/:id', funcionarioController.deletar);
+router.post('/funcionarios/login', funcionarioController.login);
+router.get('/servicos', servicoController.listarTodos);
+router.get('/servicos/:id', servicoController.buscarPorId);
+router.post('/servicos', servicoController.criar);
+router.put('/servicos/:id', servicoController.atualizar);
+router.delete('/servicos/:id', servicoController.deletar);
+router.get('/eventos', eventoController.listarTodos);
+router.get('/eventos/:id', eventoController.buscarPorId);
+router.get('/eventos/cliente/:clienteId', eventoController.buscarPorCliente);
+router.post('/eventos', eventoController.criar);
+router.put('/eventos/:id', eventoController.atualizar);
+router.delete('/eventos/:id', eventoController.deletar);
+router.post('/eventos/:id/funcionarios', eventoController.adicionarFuncionario);
+router.delete('/eventos/:eventoId/funcionarios/:funcionarioId', eventoController.removerFuncionario);
+router.get('/eventos/:id/funcionarios', eventoController.listarFuncionarios);
+router.post('/eventos/:id/servicos', eventoController.adicionarServico);
+router.delete('/eventos/:eventoId/servicos/:servicoId', eventoController.removerServico);
+router.get('/eventos/:id/servicos', eventoController.listarServicos);
+router.get('/agendamentos', agendamentoController.listarTodos);
+router.get('/agendamentos/:id', agendamentoController.buscarPorId);
+router.get('/agendamentos/funcionario/:funcionarioId', agendamentoController.buscarPorFuncionario);
+router.get('/agendamentos/evento/:eventoId', agendamentoController.buscarPorEvento);
+router.get('/agendamentos/disponiveis', agendamentoController.buscarDisponiveis);
+router.get('/agendamentos/data/:data', agendamentoController.buscarPorData);
+router.post('/agendamentos', agendamentoController.criar);
+router.put('/agendamentos/:id', agendamentoController.atualizar);
+router.delete('/agendamentos/:id', agendamentoController.deletar);
+router.patch('/agendamentos/:id/disponibilidade', agendamentoController.alterarDisponibilidade);
+
+module.exports = router;
