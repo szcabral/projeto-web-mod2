@@ -59,7 +59,7 @@ class ClienteController {
       const cliente = await Cliente.buscarPorId(id);
 
       if (!cliente) {
-        return res.status(404).json({ erro: 'Cliente não encontrado' });
+        return res.status(404).json({ erro: 'Cliente não foi encontrado' });
       }
 
       delete cliente.senha;
@@ -89,7 +89,7 @@ class ClienteController {
       });
 
       if (!clienteAtualizado) {
-        return res.status(404).json({ erro: 'Cliente não encontrado' });
+        return res.status(404).json({ erro: 'Cliente não foi encontrado' });
       }
 
       delete clienteAtualizado.senha;

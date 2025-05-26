@@ -61,7 +61,7 @@ class FuncionarioController {
 
             res.status(201).json({
                 success: true,
-                message: 'Funcionário criado com sucesso',
+                message: 'O Funcionário foi criado com sucesso',
                 data: { ...funcionario, senha: undefined }
             });
         } catch (error) {
