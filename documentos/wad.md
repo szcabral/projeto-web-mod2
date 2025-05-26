@@ -161,8 +161,37 @@ CREATE TABLE evento_servico (
 *Posicione aqui algumas imagens demonstrativas de seu protótipo de alta fidelidade e o link para acesso ao protótipo completo (mantenha o link sempre público para visualização).*
 
 ### 3.6. WebAPI e endpoints (Semana 05)
+| Entidade     | Método  | Rota                                              | Descrição                                  | Parâmetros / Corpo                                        |
+|--------------|---------|--------------------------------------------------|--------------------------------------------|----------------------------------------------------------|
+| **Agendamento** | GET     | `/`                                              | Listar todos os agendamentos               | —                                                        |
+|              | GET     | `/disponiveis`                                   | Buscar agendamentos disponíveis            | —                                                        |
+|              | GET     | `/data/:data`                                    | Buscar agendamentos por data                | `data` (ex: 2025-05-25)                                  |
+|              | GET     | `/:id`                                           | Buscar agendamento por ID                   | `id`                                                    |
+|              | GET     | `/funcionario/:funcionarioId`                    | Buscar agendamentos de um funcionário       | `funcionarioId`                                          |
+|              | GET     | `/evento/:eventoId`                              | Buscar agendamentos de um evento            | `eventoId`                                              |
+|              | POST    | `/`                                              | Criar um novo agendamento                   | Dados do agendamento no corpo                            |
+|              | PUT     | `/:id`                                           | Atualizar um agendamento                    | `id` + dados atualizados no corpo                        |
+|              | DELETE  | `/:id`                                           | Deletar um agendamento                      | `id`                                                    |
+|              | PATCH   | `/:id/disponibilidade`                           | Alterar disponibilidade do agendamento     | `id` + novo status no corpo                              |
+| **Cliente**  | POST    | `/`                                              | Criar um novo cliente                       | Dados do cliente no corpo                                |
+|              | GET     | `/`                                              | Listar todos os clientes                    | —                                                        |
+|              | GET     | `/:id`                                           | Buscar cliente por ID                       | `id`                                                    |
+|              | PUT     | `/:id`                                           | Atualizar cliente                           | `id` + dados atualizados no corpo                        |
+|              | DELETE  | `/:id`                                           | Deletar cliente                             | `id`                                                    |
+|              | POST    | `/login`                                         | Login do cliente                            | Email e senha no corpo                                  |
+| **Evento**   | GET     | `/`                                              | Listar todos os eventos                     | —                                                        |
+|              | GET     | `/:id`                                           | Buscar evento por ID                        | `id`                                                    |
+|              | GET     | `/cliente/:clienteId`                            | Buscar eventos de um cliente                | `clienteId`                                            |
+|              | POST    | `/`                                              | Criar um novo evento                        | Dados do evento no corpo                                |
+|              | PUT     | `/:id`                                           | Atualizar evento                            | `id` + dados no corpo                                    |
+|              | DELETE  | `/:id`                                           | Deletar evento                             | `id`                                                    |
+|              | POST    | `/:id/funcionarios`                             | Adicionar funcionário ao evento             | `id` (evento) + dados do funcionário                     |
+|              | DELETE  | `/:eventoId/funcionarios/:funcionarioId`        | Remover funcionário do evento               | `eventoId`, `funcionarioId`                              |
+|              | GET     | `/:id/funcionarios`                             | Listar funcionários de um evento            | `id` (evento)                                          |
+|              | POST    | `/:id/servicos`                                 | Adicionar serviço ao evento                  | `id` (evento) + dados do serviço                         |
+|              | DELETE  | `/:eventoId/servicos/:servicoId`                 | Remover serviço do evento                    | `eventoId`, `servicoId`                                  |
+|              | GET     | `/:id/servicos`                                 | Listar serviços de um evento                 | `id` (eve
 
-*Utilize um link para outra página de documentação contendo a descrição completa de cada endpoint. Ou descreva aqui cada endpoint criado para seu sistema.*  
 
 ### 3.7 Interface e Navegação (Semana 07)
 
