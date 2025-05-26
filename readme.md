@@ -87,7 +87,24 @@ Isso instalará todas as dependências definidas no arquivo <b>package.json</b> 
     * 
 * 0.3.0 - XX/XX/2025
     * 
-* 0.2.0 - XX/XX/2025
+* 0.2.0 - 25/05/2025 : Segunda entrega da primeira ponderada de programação
+Atualização do read.me
+Descrição dos endpoints (subseção 3.6 do WAD)
+Incrementação do padrão MVC
+    - Implementação do padrão MVC
+    - Criação dos arquivos de configuração
+    - Criação dos arquivos de rotas
+    - Criação dos arquivos de controllers
+    - Criação dos arquivos de models
+    - Criação dos arquivos de views
+    - Criação do arquivo .env.example
+    - Criação do arquivo .gitignore
+    - Criação do arquivo jest.config.js
+    - Criação do arquivo rest.http
+    - Atualização do arquivo package.json
+    - Atualização do arquivo server.js
+Estruturação correta das pastas
+
     * 
 * 0.1.0 - 09/05/2025 : Entrega da primeira ponderada de programação
     - Introdução ao projeto
