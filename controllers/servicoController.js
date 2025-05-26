@@ -1,145 +1,64 @@
+const servicoService = require('../services/servicoService');
+
 class ServicoController {
-    constructor(servicoModel) {
-        this.servicoModel = servicoModel;
+  async buscarTodos(req, res) {
+    try {
+      const servicos = await servicoService.buscarTodos();
+      res.json(servicos);
+    } catch (error) {
+      res.status(500).json({ erro: 'Erro ao buscar serviços' });
     }
+  }
 
-    async index(req, res) {
-        try {
-            const servicos = await this.servicoModel.buscarTodos();
-            res.json({
-                success: true,
-                data: servicos
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: 'Erro ao buscar serviços',
-                error: error.message
-            });
-        }
+  async buscarPorId(req, res) {
+    try {
+      const { id } = req.params;
+      const servico = await servicoService.buscarPorId(id);
+      if (!servico) return res.status(404).json({ erro: 'Serviço não encontrado' });
+      res.json(servico);
+    } catch (error) {
+      res.status(500).json({ erro: 'Erro ao buscar serviço' });
     }
+  }
 
-    async show(req, res) {
-        try {
-            const { id } = req.params;
-            const servico = await this.servicoModel.buscarPorId(id);
-            
-            if (!servico) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'Serviço não foi encontrado'
-                });
-            }
-
-            res.json({
-                success: true,
-                data: servico
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: 'Erro ao buscar serviço',
-                error: error.message
-            });
-        }
+  async criar(req, res) {
+    try {
+      const novoServico = await servicoService.criar(req.body);
+      res.status(201).json(novoServico);
+    } catch (error) {
+      res.status(500).json({ erro: 'Erro ao criar serviço' });
     }
+  }
 
-    async store(req, res) {
-        try {
-            const { tipo, custo } = req.body;
-            
-            if (!tipo || custo === undefined) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Tipo e custo são obrigatórios'
-                });
-            }
-
-            const servico = await this.servicoModel.criar({ tipo, custo });
-
-            res.status(201).json({
-                success: true,
-                message: 'Serviço foi criado com sucesso',
-                data: servico
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: 'Erro ao criar serviço',
-                error: error.message
-            });
-        }
+  async atualizar(req, res) {
+    try {
+      const { id } = req.params;
+      const servicoAtualizado = await servicoService.atualizar(id, req.body);
+      res.json(servicoAtualizado);
+    } catch (error) {
+      res.status(500).json({ erro: 'Erro ao atualizar serviço' });
     }
+  }
 
-    async update(req, res) {
-        try {
-            const { id } = req.params;
-            const { tipo, custo } = req.body;
-
-            const servico = await this.servicoModel.atualizar(id, { tipo, custo });
-
-            if (!servico) {
-                return res.status(404).json({
-                    success: false,
-                    message: 'Serviço não foi encontrado'
-                });
-            }
-
-            res.json({
-                success: true,
-                message: 'Serviço foi atualizado com sucesso',
-                data: servico
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: 'Erro ao atualizar serviço',
-                error: error.message
-            });
-        }
+  async deletar(req, res) {
+    try {
+      const { id } = req.params;
+      await servicoService.deletar(id);
+      res.status(204).send();
+    } catch (error) {
+      res.status(500).json({ erro: 'Erro ao deletar serviço' });
     }
+  }
 
-    async destroy(req, res) {
-        try {
-            const { id } = req.params;
-            await this.servicoModel.deletar(id);
-
-            res.json({
-                success: true,
-                message: 'O Serviço foi removido com sucesso'
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: 'Erro ao remover serviço',
-                error: error.message
-            });
-        }
+  async calcularCustoTotal(req, res) {
+    try {
+      const { servico_ids } = req.body; // Expects { servico_ids: [1, 2, 3] }
+      const total = await servicoService.calcularCustoTotal(servico_ids);
+      res.json({ custo_total: total });
+    } catch (error) {
+      res.status(500).json({ erro: 'Erro ao calcular custo total' });
     }
-
-    async calcularCusto(req, res) {
-        try {
-            const { servico_ids } = req.body;
-            
-            if (!servico_ids || !Array.isArray(servico_ids)) {
-                return res.status(400).json({
-                    success: false,
-                    message: 'IDs dos serviços são obrigatórios'
-                });
-            }
-
-            const custoTotal = await this.servicoModel.calcularCustoTotal(servico_ids);
-
-            res.json({
-                success: true,
-                data: { custo_total: custoTotal }
-            });
-        } catch (error) {
-            res.status(500).json({
-                success: false,
-                message: 'Erro ao calcular custo',
-                error: error.message
-            });
-        }
-    }
+  }
 }
+
+module.exports = new ServicoController();
