@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Adicionar Aluna</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Reset simples */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Outfit", sans-serif;
+        background: #fcf2f3;
+        color: #3c003c;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      header {
+        background: #3c003c;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+        box-shadow: 0 2px 5px rgb(0 0 0 / 0.1);
+      }
+
+      header img {
+        height: 40px;
+        user-select: none;
+      }
+
+      main {
+        padding: 30px 20px;
+        max-width: 700px;
+        margin: 0 auto 50px;
+      }
+
+      h1 {
+        text-align: center;
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 10px;
+      }
+
+      .descricao {
+        text-align: center;
+        font-size: 16px;
+        margin-bottom: 30px;
+        color: #4a004a;
+        line-height: 1.5;
+        white-space: pre-line;
+      }
+
+      .secao {
+        margin-bottom: 40px;
+      }
+
+      .secao h2 {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: #3c003c;
+        font-weight: 600;
+        padding-bottom: 6px;
+        font-family: poppins, sans-serif;
+        font-weight: medium;
+      }
+
+      .perfil-container {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        flex-wrap: wrap;
+      }
+
+      .upload-foto {
+        width: 120px;
+        height: 120px;
+        background: #f4eef4;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        color: #3c003c;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.3s ease;
+      }
+
+      .upload-foto:hover {
+        background-color: #e0d0e3;
+      }
+
+      .upload-foto input[type="file"] {
+        opacity: 0;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+      }
+
+      .campos-perfil {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-width: 260px;
+      }
+
+      .duplo {
+        display: flex;
+        gap: 10px;
+      }
+
+      .duplo > div {
+        flex: 1;
+      }
+
+      label {
+        display: block;
+        font-weight: 600;
+        margin-bottom: 6px;
+        font-size: 14px;
+      }
+
+      input,
+      textarea,
+      select {
+        border: 2px solid #e08595;
+        padding: 10px;
+        border-radius: 6px;
+        width: 100%;
+        font-family: inherit;
+        font-size: 14px;
+        box-sizing: border-box;
+        transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        background-color: #fcf2f3;
+      }
+
+      input:focus,
+      textarea:focus,
+      select:focus {
+        outline: none;
+        border-color: #a148a9;
+        box-shadow: 0 0 5px 2px #d6a1d7;
+        background: #fff;
+      }
+
+      textarea {
+        resize: vertical;
+        min-height: 80px;
+      }
+
+      .tags {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+        flex-wrap: wrap;
+      }
+
+      .tag {
+        background: #fdd5e5;
+        padding: 6px 12px;
+        border-radius: 12px;
+        color: #3c003c;
+        font-weight: 600;
+        user-select: none;
+        font-size: 13px;
+        box-shadow: 0 2px 5px rgb(0 0 0 / 0.05);
+      }
+
+      .projeto-campos,
+      .contato-campos,
+      .habilidade-campos {
+        border-radius: 8px;
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        position: relative;
+      }
+
+      .projeto-campos button.remover-projeto,
+      .contato-campos button.remover-contato,
+      .habilidade-campos button.remover-habilidade {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #9e2e6f;
+        border: none;
+        color: white;
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .projeto-campos button.remover-projeto:hover,
+      .contato-campos button.remover-contato:hover,
+      .habilidade-campos button.remover-habilidade:hover {
+        background-color: #7a2356;
+      }
+
+      button {
+        color: #3c003c;
+        border: none;
+        padding: 12px 25px;
+        font-size: 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 10px 0 0;
+        transition: background-color 0.3s ease;
+        font-weight: 700;
+        border-radius: 6px;
+        background: rgba(224, 133, 149, 0.44);
+      }
+
+      #submit-btn {
+        width: 45%;
+        background: #3c003c;
+        color: white;
+      }
+
+      #exclude-btn {
+        width: 45%;
+        background: #3c003c;
+        color: white;
+      }
+
+      button[type="submit"]:hover:not(:disabled) {
+        background: #571a57;
+      }
+
+      button:disabled {
+        background: #999;
+        cursor: not-allowed;
+      }
+
+      /* Para seletor múltiplo */
+      select[multiple] {
+        height: 130px;
+        padding: 8px;
+      }
+
+      .buttons-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 20px;
+        margin: 15px;
+      }
+
+      /* Instrução abaixo do select 
+      .secao p {
+        font-size: 12px;
+        color: #5a005a;
+        margin-top: 5px;
+        margin-bottom: 0;
+        font-style: italic;
+      } */
+
+      /* Responsividade */
+      @media (max-width: 480px) {
+        .perfil-container {
+          flex-direction: column;
+        }
+
+        .duplo {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <img src="../assets/image.png" alt="Logo Fresh Muse" />
+    </header>
+
+    <main>
+      <h1>Grace Hopper</h1>
+      <p class="descricao">
+        A potência do Grace está em quem faz parte dele!<br />
+        Compartilha com a gente quem é a mulher incrível que constrói esse
+        coletivo com a gente todos os dias.
+      </p>
+
+      <form id="aluna-form" enctype="multipart/form-data" novalidate>
+        <section class="secao">
+          <h2>👤 Perfil</h2>
+          <p>Adicione suas Informações de perfil</p>
+
+          <div class="perfil-container">
+            <div class="campos-perfil">
+              <label for="nome_aluna">Nome Completo *</label>
+              <input
+                type="text"
+                id="nome_aluna"
+                name="nome_aluna"
+                placeholder="Insira seu nome completo"
+                required
+                autocomplete="name"
+              />
+
+              <label for="nome_exibicao">Nome de Exibição *</label>
+              <input
+                type="text"
+                id="nome_exibicao"
+                name="nome_exibicao"
+                placeholder="Insira seu nome de exibição"
+                required
+                autocomplete="nickname"
+              />
+
+              <div class="duplo">
+                <div>
+                  <label for="curso">Curso *</label>
+                  <select id="curso" name="curso" required>
+                    <option value="">Selecione o curso</option>
+                    <option value="Sistemas de Informação">
+                      Sistemas de Informação
+                    </option>
+                    <option value="Ciência da Computação">
+                      Ciência da Computação
+                    </option>
+                    <option value="Engenharia da Computação">
+                      Engenharia da Computação
+                    </option>
+                    <option value="Engenharia de Software">
+                      Engenharia de Software
+                    </option>
+                    <option value="Adm Tech">Adm Tech</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="semestre">Semestre *</label>
+                  <select id="semestre" name="semestre" required>
+                    <option value="">Selecione o Semestre</option>
+                    <option value="2022.1">2022.1</option>
+                    <option value="2022.2">2022.2</option>
+                    <option value="2023.1">2023.1</option>
+                    <option value="2024.1">2024.1</option>
+                    <option value="2025.1">2025.1</option>
+                  </select>
+                </div>
+              </div>
+
+              <label for="email">Email *</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Insira seu email"
+                required
+                autocomplete="email"
+              />
+
+              <label for="bio">Bio <span id="bio-count">0/255</span></label>
+              <textarea
+                id="bio"
+                name="bio"
+                placeholder="Insira um pequeno trecho contando sua sobre você"
+                maxlength="255"
+                required
+                aria-describedby="bio-count"
+              ></textarea>
+
+              <label for="frase_pessoal">Frase Pessoal</label>
+              <input
+                type="text"
+                id="frase_pessoal"
+                name="frase_pessoal"
+                placeholder="Insira uma frase inspiradora"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section class="contatos" id="contatos">
+          <h2>📧 Informações de Contato *</h2>
+          <p>Adicione pelo menos um contato.</p>
+
+          <div class="contato-campos">
+            <label for="contato_email">Email</label>
+            <input
+              type="email"
+              name="contato_email[]"
+              placeholder="Insira seu email"
+            />
+            <label for="contato_github">GitHub</label>
+            <input
+              type="url"
+              name="contato_github[]"
+              placeholder="https://github.com/usuario"
+            />
+            <label for="contato_linkedin">LinkedIn</label>
+            <input
+              type="url"
+              name="contato_linkedin[]"
+              placeholder="https://linkedin.com/in/usuario"
+            />
+            <button type="button" class="remover-contato" aria-label="Remover">
+              Remover
+            </button>
+          </div>
+          <button
+            type="button"
+            id="adicionar-contatos"
+            aria-label="Adicionar novo contato"
+          >
+            Adicionar Contato
+          </button>
+        </section>
+
+        <section class="secao" id="habilidades">
+          <h2>🧠 Habilidades Técnicas *</h2>
+          <p>Adicione pelo menos uma habilidade técnica.</p>
+          <div class="habilidade-campos">
+            <label for="habilidade">Habilidade</label>
+            <input
+              type="text"
+              name="habilidade[]"
+              placeholder="Insira uma habilidade técnica"
+              required
+            />
+            <button
+              type="button"
+              class="remover-habilidade"
+              aria-label="Remover"
+            >
+              Remover
+            </button>
+          </div>
+          <button
+            type="button"
+            id="adicionar-habilidades"
+            aria-label="Adicionar nova habilidade"
+          >
+            Adicionar Habilidade
+          </button>
+        </section>
+
+        <section class="secao" id="projetos">
+          <h2>🛠 Projetos Desenvolvidos *</h2>
+          <p>Adicione pelo menos um projeto.</p>
+
+          <div class="projeto-campos">
+            <label for="projeto_nome">Nome do Projeto *</label>
+            <input
+              type="text"
+              name="projeto_nome[]"
+              placeholder="Nome do projeto"
+              required
+            />
+            <label for="projeto_descricao">Descrição *</label>
+            <textarea
+              name="projeto_descricao[]"
+              placeholder="Descrição do projeto"
+              required
+            ></textarea>
+            <label for="projeto_tecnologias">Tecnologias *</label>
+            <input
+              type="text"
+              name="projeto_tecnologias[]"
+              placeholder="Tecnologias utilizadas"
+              required
+            />
+            <label for="projeto_link">Link *</label>
+            <input
+              type="url"
+              name="projeto_link[]"
+              placeholder="Link do projeto"
+              required
+            />
+            <button
+              type="button"
+              class="remover-projeto"
+              aria-label="Remover projeto"
+            >
+              Remover
+            </button>
+          </div>
+          <button
+            type="button"
+            id="adicionar-projetos"
+            aria-label="Adicionar novo projeto"
+          >
+            Adicionar Projeto
+          </button>
+        </section>
+
+        <div class="buttons-container">
+          <button type="submit" id="submit-btn" class="buttons-form" disabled>
+            Salvar Perfil
+          </button>
+          <button type="submit" id="exclude-btn" class="buttons-form" disabled>
+            Excluir Perfil
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Função para atualizar o contador de caracteres da bio
+        const bioTextarea = document.getElementById("bio");
+        const bioCount = document.getElementById("bio-count");
+        if (bioTextarea && bioCount) {
+          bioTextarea.addEventListener("input", () => {
+            bioCount.textContent = `${bioTextarea.value.length}/255`;
+          });
+        }
+
+        // Função para adicionar/remover campos dinâmicos
+        function adicionarCampos(
+          containerId,
+          camposClass,
+          templateHtml,
+          removerClass
+        ) {
+          const container = document.getElementById(containerId);
+          const adicionarBtn = document.getElementById(
+            `adicionar-${containerId}`
+          );
+
+          if (!container || !adicionarBtn) {
+            console.error(`Elementos não encontrados para ${containerId}`);
+            return;
+          }
+
+          adicionarBtn.addEventListener("click", () => {
+            const div = document.createElement("div");
+            div.className = camposClass;
+            div.innerHTML = templateHtml;
+            container.insertBefore(div, adicionarBtn);
+            updateSubmitButton();
+          });
+
+          container.addEventListener("click", (e) => {
+            if (e.target.classList.contains(removerClass)) {
+              const campos = e.target.closest(`.${camposClass}`);
+              if (container.querySelectorAll(`.${camposClass}`).length > 1) {
+                campos.remove();
+              }
+              updateSubmitButton();
+            }
+          });
+        }
+
+        // Template para contato
+        const contatoTemplate = `
+          <label for="contato_email">Email</label>
+          <input type="email" name="contato_email[]" placeholder="Insira seu email" />
+          <label for="contato_github">GitHub</label>
+          <input type="url" name="contato_github[]" placeholder="https://github.com/usuario" />
+          <label for="contato_linkedin">LinkedIn</label>
+          <input type="url" name="contato_linkedin[]" placeholder="https://linkedin.com/in/usuario" />
+          <button type="button" class="remover-contato" aria-label="Remover">Remover</button>
+        `;
+        adicionarCampos(
+          "contatos",
+          "contato-campos",
+          contatoTemplate,
+          "remover-contato"
+        );
+
+        // Template para habilidade
+        const habilidadeTemplate = `
+          <label for="habilidade">Habilidade</label>
+          <input type="text" name="habilidade[]" placeholder="Insira uma habilidade técnica" required />
+          <button type="button" class="remover-habilidade" aria-label="Remover">Remover</button>
+        `;
+        adicionarCampos(
+          "habilidades",
+          "habilidade-campos",
+          habilidadeTemplate,
+          "remover-habilidade"
+        );
+
+        // Template para projeto
+        const projetoTemplate = `
+          <label for="projeto_nome">Nome do Projeto *</label>
+          <input type="text" name="projeto_nome[]" placeholder="Nome do projeto" required />
+          <label for="projeto_descricao">Descrição *</label>
+          <textarea name="projeto_descricao[]" placeholder="Descrição do projeto" required></textarea>
+          <label for="projeto_tecnologias">Tecnologias *</label>
+          <input type="text" name="projeto_tecnologias[]" placeholder="Tecnologias utilizadas" required />
+          <label for="projeto_link">Link *</label>
+          <input type="url" name="projeto_link[]" placeholder="Link do projeto" required />
+          <button type="button" class="remover-projeto" aria-label="Remover projeto">Remover</button>
+        `;
+        adicionarCampos(
+          "projetos",
+          "projeto-campos",
+          projetoTemplate,
+          "remover-projeto"
+        );
+
+        // Função para verificar se o formulário está válido
+        function updateSubmitButton() {
+          const form = document.getElementById("aluna-form");
+          const submitBtn = document.getElementById("submit-btn");
+
+          if (!form || !submitBtn) {
+            console.log("Form ou botão de submit não encontrados.");
+            return;
+          }
+
+          const projetosInputs = document.querySelectorAll(
+            '.projeto-campos input[name^="projeto_nome"]'
+          );
+          const habilidadesInputs = document.querySelectorAll(
+            '.habilidade-campos input[name^="habilidade"]'
+          );
+          const contatosInputs = document.querySelectorAll(
+            '.contato-campos input[name^="contato_email"], .contato-campos input[name^="contato_github"], .contato-campos input[name^="contato_linkedin"]'
+          );
+
+          let hasProjeto = Array.from(projetosInputs).some(
+            (input) => input.value.trim() !== ""
+          );
+          let hasHabilidade = Array.from(habilidadesInputs).some(
+            (input) => input.value.trim() !== ""
+          );
+          let hasContato = Array.from(contatosInputs).some(
+            (input) => input.value.trim() !== ""
+          );
+
+          // Verifique a validade do formulário HTML5 nativa
+          const isFormValidNative = form.checkValidity();
+
+          console.log("--- Status de Validação ---");
+          console.log("Formulário nativamente válido:", isFormValidNative);
+          console.log("Possui Projeto:", hasProjeto);
+          console.log("Possui Habilidade:", hasHabilidade);
+          console.log("Possui Contato:", hasContato);
+          console.log(
+            "Totalmente Válido (Form + Campos Dinâmicos):",
+            isFormValidNative && hasProjeto && hasHabilidade && hasContato
+          );
+
+          submitBtn.disabled = !(
+            isFormValidNative &&
+            hasProjeto &&
+            hasHabilidade &&
+            hasContato
+          );
+        }
+
+        // Adicionar listeners para atualizar o botão de submit
+        const form = document.getElementById("aluna-form");
+        if (form) {
+          form.addEventListener("input", updateSubmitButton);
+          form.addEventListener("change", updateSubmitButton);
+        }
+
+        // Função POST para enviar dados da aluna
+        async function postAluna(alunaData) {
+          const response = await fetch("/alunas/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(alunaData),
+          });
+          if (!response.ok) {
+            const erro = await response.json();
+            throw new Error(erro.error || "Erro ao salvar aluna");
+          }
+          return response.json();
+        }
+
+        // Função POST para enviar dados de contato
+        async function postContato(contatoData) {
+          const response = await fetch("/contatos/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(contatoData),
+          });
+          if (!response.ok) {
+            const erro = await response.json();
+            throw new Error(erro.error || "Erro ao salvar contato");
+          }
+          return response.json();
+        }
+
+        // Função POST para enviar habilidades
+        async function postHabilidade(habilidadeData) {
+          const response = await fetch("/habilidades/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(habilidadeData),
+          });
+          if (!response.ok) {
+            const erro = await response.json();
+            throw new Error(erro.error || "Erro ao salvar habilidade");
+          }
+          return response.json();
+        }
+
+        // Função POST para enviar um projeto
+        async function postProjeto(projetoData) {
+          const response = await fetch("/projetos/create", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(projetoData),
+          });
+          if (!response.ok) {
+            const erro = await response.json();
+            throw new Error(erro.error || "Erro ao salvar projeto");
+          }
+          return response.json();
+        }
+
+        // Função para upload de imagem
+        async function uploadImagem(file) {
+          const formData = new FormData();
+          formData.append("file", file);
+          const response = await fetch("/upload", {
+            method: "POST",
+            body: formData,
+          });
+          if (!response.ok) throw new Error("Erro ao fazer upload da imagem");
+          const data = await response.json();
+          return data.url;
+        }
+
+        // Submissão do formulário
+        if (form) {
+          form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            console.log("Valor de nome_aluna:", formData.get("nome_aluna"));
+            console.log(
+              "Valor de nome_exibicao:",
+              formData.get("nome_exibicao")
+            );
+            console.log("Valor de email:", formData.get("email"));
+            console.log("Valor de bio:", formData.get("bio"));
+            console.log(
+              "Valor de frase_pessoal:",
+              formData.get("frase_pessoal")
+            ); // Para verificar este também
+            const emailPrincipal = formData.get("email");
+            console.log("Email principal coletado:", emailPrincipal);
+            try {
+              // Coletar dados da aluna
+              const alunaData = {
+                nome_aluna: formData.get("nome_aluna").trim(),
+                nome_exibicao: formData.get("nome_exibicao").trim(),
+                email: formData.get("email").trim(),
+                bio: formData.get("bio").trim(),
+                curso: formData.get("curso"),
+                semestre: formData.get("semestre"),
+                imagem_url: formData.get("imagem_url")
+                  ? await uploadImagem(formData.get("imagem_url"))
+                  : null,
+                frase_pessoal: formData.get("frase_pessoal")?.trim(),
+              };
+
+              // Coletar contatos
+              const contatos = [];
+              const contatoEmails = formData.getAll("contato_email");
+              const contatoGitHubs = formData.getAll("contato_github");
+              const contatoLinkedIns = formData.getAll("contato_linkedin");
+              contatoEmails.forEach((email) => {
+                if (email.trim())
+                  contatos.push({
+                    Email: email.trim(),
+                    GitHub: "",
+                    LinkedIn: "",
+                  });
+              });
+              contatoGitHubs.forEach((github) => {
+                if (github.trim())
+                  contatos.push({
+                    Email: "",
+                    GitHub: github.trim(),
+                    LinkedIn: "",
+                  });
+              });
+              contatoLinkedIns.forEach((linkedin) => {
+                if (linkedin.trim())
+                  contatos.push({
+                    Email: "",
+                    GitHub: "",
+                    LinkedIn: linkedin.trim(),
+                  });
+              });
+
+              // Coletar habilidades
+              const habilidades = formData
+                .getAll("habilidade")
+                .filter((h) => h.trim())
+                .map((h) => ({ habilidades: h.trim() }));
+
+              // Coletar projetos
+              const projetos = [];
+              const projetoNomes = formData.getAll("projeto_nome");
+              const projetoDescricoes = formData.getAll("projeto_descricao");
+              const projetoTecnologias = formData.getAll("projeto_tecnologias");
+              const projetoLinks = formData.getAll("projeto_link");
+              projetoNomes.forEach((nome, i) => {
+                if (nome.trim()) {
+                  projetos.push({
+                    nome_projeto: nome.trim(),
+                    descrição: projetoDescricoes[i]?.trim() || "",
+                    tecnologias: projetoTecnologias[i]?.trim() || "",
+                    link: projetoLinks[i]?.trim() || "",
+                  });
+                }
+              });
+
+              // Enviar aluna
+              const aluna = await postAluna(alunaData);
+              const id_alunas = aluna.id_alunas;
+
+              // Enviar contatos
+              for (const contato of contatos) {
+                await postContato({ id_alunas, ...contato });
+              }
+
+              // Enviar habilidades
+              for (const habilidade of habilidades) {
+                await postHabilidade({ id_alunas, ...habilidade });
+              }
+
+              // Enviar projetos
+              for (const projeto of projetos) {
+                await postProjeto({ id_alunas, ...projeto });
+              }
+
+              alert("Perfil salvo com sucesso!");
+              form.reset();
+              updateSubmitButton();
+
+              window.location.href = "./visualizarAlunas.ejs";
+            } catch (error) {
+              alert("Erro ao salvar perfil: " + error.message);
+            }
+          });
+        }
+
+        // Inicializar o botão de submit
+        updateSubmitButton();
+      });
+    </script>
+  </body>
+</html>
