@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página com Logo Grande</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #f7f7f7;
+      overflow-x: hidden;
+    }
+
+    .fresh_muse {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(180deg, #fa746f 30%, #D5605E 100%);
+      color: #BAD9D3;
+      font-size: 4rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+      flex-direction: column;
+    }
+
+    .fresh_muse img {
+      max-width: 70%;
+      height: auto;
+      animation: zoomIn 1.5s ease-out;
+    }
+
+    @keyframes zoomIn {
+      0% {
+        transform: scale(1);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 2;
+      }
+    }
+
+    .content {
+      padding: 60px 20px;
+      background: #e5fffd;
+      animation: fadeIn 2s ease;
+      animation-delay: 1.5s;
+      animation-fill-mode: both;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .botao_arrendondar {
+     background-color: #7ec8a7;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 999px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    
+  </style>
+</head>
+<body>
+  <div class="fresh_muse">
+    <img src="../assets/fresh_muse_logo.png" alt="Logo" />
+  </div>
+
+  <div class="content">
+    <h2>O frescor da sua melhor memória</h2>
+    <p>
+    Combinamos tecnologia, criatividade e excelência para criar experiências únicas, do início ao fim. Estamos sempre otimizando nossos processos para tornar tudo mais leve, ágil e inesquecível — tanto para você quanto para seus convidados.
+Mais do que organizar eventos, transformamos ideias em memórias marcantes.
+
+<div class="botao_arredondar">
+     </div>
+    </p>
+  </div>
+</body>
+</html>

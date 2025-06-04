@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const app = express();
-const db = require('./src/config/db');
+const db = require('./src/config/database');
 const path = require('path');
 
 app.set('view engine', 'ejs');
@@ -13,11 +13,7 @@ db.connect()
 
     app.use(express.json());
 
-    const userRoutes = require('./routes/userRoutes');
-    app.use('/users', userRoutes);
-
-    const frontendRoutes = require('./routes/frontRoutes');
-    app.use('/', frontendRoutes);
+    const indexRouter = require('./src/routes/index');
 
     // Middleware para lidar com erros de rota não encontrada
     app.use((req, res, next) => {

@@ -1,6 +1,7 @@
     const agendamentoService = require('../services/agendamentoService');
 
     const agendamentoController = {
+
     async listarTodos(req, res) {
         try {
         const agendamentos = await agendamentoService.listarTodos();
