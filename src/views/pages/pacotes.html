@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Fresh Muse</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(180deg, #fa746f 30%, #D5605E 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .logo {
+      margin-bottom: 40px;
+    }
+
+    .logo img {
+      max-width: 300px;
+      height: auto;
+    }
+
+    .quadros {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .quadro {
+      background-color: #ffffff;
+      border: 2px solid #D5605E;
+      border-radius: 16px;
+      width: 260px;
+      height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #D5605E;
+      font-size: 1.5rem;
+      font-weight: 600;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+
+    .quadro:hover {
+      border-color: #fa746f;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .quadro-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <img src="../assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
+  </div>
+
+  <div class="quadros">
+    <a href="/login-clientes" class="quadro">
+      <div class="quadro-icon">
+        <img src="../assets/cliente.png">
+      </div>
+      <div>Clientes</div>
+
+<a href="/login-funcionarios" class="quadro">
+  <div class="quadro-icon">
+    <img src="../assets/funcionario.png">
+  </div>
+  <div>Funcionários</div>
+</a>
