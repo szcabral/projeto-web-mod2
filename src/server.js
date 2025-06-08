@@ -13,14 +13,22 @@ db.connect()
 
     app.use(express.json());
 
-    const indexRouter = require('./routes/index');
+    const clientesRoutes = require('./routes/clientesRoutes');
+    const funcionariosRoutes = require('./routes/funcionariosRoutes');
+    const servicosRoutes = require('./routes/servicosRoutes');
+    const eventosRoutes = require('./routes/eventosRoutes');
+    const agendamentosRoutes = require('./routes/agendamentosRoutes');
 
-    // Middleware para lidar com erros de rota não encontrada
+    app.use('/clientes', clientesRoutes);
+    app.use('/funcionarios', funcionariosRoutes);
+    app.use('/servicos', servicosRoutes);
+    app.use('/eventos', eventosRoutes);
+    app.use('/agendamentos', agendamentosRoutes);
+
     app.use((req, res, next) => {
       res.status(404).send('Página não encontrada');
     });
 
-    // Middleware para lidar com erros internos do servidor
     app.use((err, req, res, next) => {
       console.error(err.stack);
       res.status(500).send('Erro no servidor');
