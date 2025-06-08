@@ -16,23 +16,19 @@
       min-height: 100vh;
       color: #fff;
     }
-
     .logo {
       margin-bottom: 40px;
     }
-
     .logo img {
       max-width: 300px;
       height: auto;
     }
-
     .quadros {
       display: flex;
       gap: 2rem;
       flex-wrap: wrap;
       justify-content: center;
     }
-
     .quadro {
       background-color: #ffffff;
       border: 2px solid #D5605E;
@@ -49,13 +45,11 @@
       font-weight: 600;
       transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
     }
-
     .quadro:hover {
       border-color: #fa746f;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       transform: translateY(-4px);
     }
-
     .quadro-icon {
       font-size: 3rem;
       margin-bottom: 1rem;
@@ -65,19 +59,24 @@
 <body>
 
   <div class="logo">
-    <img src="../assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
+    <img src="/assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
   </div>
 
   <div class="quadros">
     <a href="/clienteDashboard" class="quadro">
       <div class="quadro-icon">
-        <img src="../assets/cliente.png">
+        <img src="/assets/cliente.png" alt="Ícone Clientes" />
       </div>
       <div>Clientes</div>
+    </a>
 
-<a href="/login-funcionarios" class="quadro">
-  <div class="quadro-icon">
-    <img src="../assets/funcionario.png">
+    <a href="/login-funcionarios" class="quadro">
+      <div class="quadro-icon">
+        <img src="/assets/funcionario.png" alt="Ícone Funcionários" />
+      </div>
+      <div>Funcionários</div>
+    </a>
   </div>
-  <div>Funcionários</div>
-</a>
+
+</body>
+</html>
