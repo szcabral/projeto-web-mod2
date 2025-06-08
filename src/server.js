@@ -49,6 +49,9 @@ db.connect()
       res.render('pages/clienteDashboard'); // clienteDashboard.ejs deve estar em views/pages
     });
 
+    app.get('/eventos/novo', (req, res) => {
+  res.render('pages/novoEvento'); // renderiza views/pages/novoEvento.ejs
+    });
     // Tratamento de erro 404
     app.use((req, res, next) => {
       res.status(404).send('Página não encontrada');
