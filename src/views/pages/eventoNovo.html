@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Novo Evento - Fresh Muse</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(180deg, #fa746f 30%, #D5605E 100%);
+      color: #fff;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .logo {
+      margin-bottom: 40px;
+    }
+
+    .logo img {
+      max-width: 250px;
+    }
+
+    .container {
+      background: #fff;
+      color: #D5605E;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* centraliza horizontalmente */
+      text-align: center; /* centraliza texto */
+    }
+
+    h1 {
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      color: #D5605E;
+    }
+
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center; /* centraliza os filhos */
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      width: 100%;
+      text-align: center; /* centraliza texto dos labels */
+    }
+
+    input[type="text"],
+    input[type="date"],
+    textarea {
+      width: 80%; /* menor que 100% pra dar espaço lateral */
+      padding: 0.75rem;
+      border: 2px solid #D5605E;
+      border-radius: 8px;
+      margin-bottom: 1.5rem;
+      font-size: 1rem;
+      font-family: 'Montserrat', sans-serif;
+      color: #333;
+      resize: vertical;
+      text-align: center; /* texto dentro do input centralizado */
+    }
+
+    textarea {
+      min-height: 100px;
+    }
+
+    input[type="submit"] {
+      background-color: #fa746f;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 80%;
+      align-self: center;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #D5605E;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <img src="/assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
+  </div>
+
+  <div class="container">
+    <h1>Criar Novo Evento</h1>
+
+    <form action="/eventos" method="POST">
+      <label for="nome">Nome do Evento</label>
+      <input type="text" id="nome" name="nome" required />
+
+      <label for="data">Data do Evento</label>
+      <input type="date" id="data" name="data" required />
+
+      <label for="descricao">Descrição</label>
+      <textarea id="descricao" name="descricao" placeholder="Descreva o evento..."></textarea>
+
+      <input type="submit" value="Criar Evento" />
+    </form>
+  </div>
+
+</body>
+</html>
