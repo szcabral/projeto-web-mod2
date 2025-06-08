@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Controle Funcionários</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(180deg, #fa746f 30%, #D5605E 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: right;
+      min-height: 100vh;
+      color: #fff;
+    }
+
+    .logo {
+      margin-bottom: 15px;
+    }
+
+    .logo img {
+      max-width: 200px;
+      height: auto;
+    }
+
+    .quadros {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .quadro {
+      background-color: #ffffff;
+      border: 2px solid #D5605E;
+      border-radius: 15px;
+      width: 315px;
+      height: 140px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: right;
+      text-decoration: none;
+      color: #D5605E;
+      font-size: 1.8rem;
+      font-weight: 600;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      position: relative;
+    }
+
+    .quadro:hover {
+      border-color: #fa746f;
+      box-shadow: 0 32px 24px rgba(0, 0, 0, 0.2);
+      transform: translateY(-4px);
+    }
+
+    .quadro-icon {
+      font-size: 3rem;
+      margin-bottom: 2rem;
+    }
+
+    #agenda-quadro:hover #datepicker-container {
+      display: block;
+    }
+
+    #datepicker-container {
+      display: none;
+      margin-top: 15px;
+      width: 60%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <img src="../assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
+  </div>
+
+  <div class="quadros">
+    <a href="#" class="quadro" id="agenda-quadro">
+      <div class="quadro-icon"></div>
+      <div>Agenda</div>
+      <div id="datepicker-container">
+        <input type="text" class="form-control" id="datepicker" placeholder="Escolha uma data">
+      </div>
+    </a>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      $('#datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'pt-BR',
+        autoclose: true,
+        todayHighlight: true
+      });
+    });
+  </script>
+
+</body>
+</html>
