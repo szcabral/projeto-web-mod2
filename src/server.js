@@ -31,6 +31,13 @@ db.connect()
       res.render('pages/home');
     });
 
+    app.get('/login-clientes', (req, res) => {
+  res.render('pages/login');
+});
+
+app.get('/login-funcionarios', (req, res) => {
+  res.render('pages/login-funcionarios');
+});
 
     app.use((req, res, next) => {
       res.status(404).send('Página não encontrada');
