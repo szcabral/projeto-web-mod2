@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Painel cliente - Fresh Muse</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: #fa746f;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      min-height: 100vh;
+      padding-top: 40px;
+      color: #fff;
+    }
+
+    .logo {
+      margin-bottom: 40px;
+    }
+
+    .logo img {
+      max-width: 250px;
+    }
+
+    .titulo {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .quadros {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+      padding-bottom: 60px;
+    }
+
+    .quadro {
+      background-color: #D5605E;
+      border: 2px solid #C2FCF1;
+      border-radius: 16px;
+      width: 240px;
+      height: 220px;
+      text-align: center;
+      text-decoration: none;
+      color: #ffff;
+      font-size: 1.2rem;
+      font-weight: 600;
+      transition: 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 10px;
+    }
+
+    .quadro:hover {
+      border-color: #fa746f;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      transform: translateY(-6px);
+      display: flex;
+    }
+
+    .quadro img {
+      width: 1200px;
+      height: 120px;
+      object-fit: contain;
+      margin-bottom: 15px;
+      display: flex;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      color: #ffdcdc;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <img src="/src/public/assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
+  </div>
+
+  <div class="titulo">Seja bem-vindo ao painel de controle cliente</div>
+
+  <div class="quadros">
+
+    <a href="/cliente/formulário" class="quadro">
+      <img src="/src/public/assets/novoEvento.png" alt="Criar Evento">
+      <div>Novo Evento</div>
+    </a>
+
+    <a href="/criar-evento" class="quadro">
+      <img src="/src/public/assets/meusEventos.png" alt="Meus Eventos">
+      <div>Meus Eventos</div>
+    </a>
+
+    <a href="/" class="quadro">
+      <img src="/src/public/assets/retornoEventos.png" alt="Voltar">
+      <div>Voltar à Home</div>
+    </a>
+  </div>
+
+  <footer>© 2025 Fresh Muse</footer>
+
+</body>
+</html>
