@@ -14,70 +14,61 @@ db.connect()
     console.log('Conectado ao banco de dados PostgreSQL');
 
     app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
 
-    // Rotas dos recursos (API)
-    const clientesRoutes     = require('./routes/clientesRoutes');
+    // Rotas principais da aplicação
+    const clientesRoutes = require('./routes/clientesRoutes');
     const funcionariosRoutes = require('./routes/funcionariosRoutes');
-    const servicosRoutes     = require('./routes/servicosRoutes');
-    const eventosRoutes      = require('./routes/eventosRoutes');
+    const servicosRoutes = require('./routes/servicosRoutes');
+    const eventosRoutes = require('./routes/eventosRoutes');
     const agendamentosRoutes = require('./routes/agendamentosRoutes');
 
-    app.use('/clientes',     clientesRoutes);
+    app.use('/clientes', clientesRoutes);
     app.use('/funcionarios', funcionariosRoutes);
-    app.use('/servicos',     servicosRoutes);
-    app.use('/eventos',      eventosRoutes);
+    app.use('/servicos', servicosRoutes);
+    app.use('/eventos', eventosRoutes);
     app.use('/agendamentos', agendamentosRoutes);
 
-    // Servir estáticos (CSS, JS, imagens)
+    // Servir arquivos estáticos da pasta public
     app.use(express.static(path.join(__dirname, 'public')));
 
-    // --- Rotas de Páginas ---
-
-    // Home
+    // Rotas de páginas
     app.get('/', (req, res) => {
       res.render('pages/home');
     });
 
-    // Login de Cliente (página estática, sem lógica de autenticação)
     app.get('/login-clientes', (req, res) => {
       res.render('pages/login');
     });
 
-    // Após clicar em "Clientes", redireciona para o dashboard de cliente
-    app.get('/clienteDashboard', (req, res) => {
-      res.render('pages/clienteDashboard');
-    });
-
-    // Login de Funcionário (página estática, sem lógica de autenticação)
     app.get('/login-funcionarios', (req, res) => {
       res.render('pages/login-funcionarios');
     });
 
-    // Após clicar em "Funcionários", redireciona para o dashboard de funcionário
     app.get('/funcionarioDashboard', (req, res) => {
       res.render('pages/funcionarioDashboard');
     });
 
-    // Formulário de criação de evento
-    app.get('/eventos/novo', (req, res) => {
-      res.render('pages/novoEvento');
+    // Rota para o dashboard do cliente
+    app.get('/clienteDashboard', (req, res) => {
+      res.render('pages/clienteDashboard'); // clienteDashboard.ejs deve estar em views/pages
     });
 
-    // --- Tratamentos de Erro ---
-
-    // 404
-    app.use((req, res) => {
+    app.get('/eventoNovo', (req, res) => {
+  res.render('pages/eventoNovo'); // renderiza views/pages/novoEvento.ejs
+    });
+    
+    // Tratamento de erro 404
+    app.use((req, res, next) => {
       res.status(404).send('Página não encontrada');
     });
 
-    // 500
+    // Tratamento de erro do servidor
     app.use((err, req, res, next) => {
       console.error(err.stack);
       res.status(500).send('Erro no servidor');
     });
 
-    // Iniciar servidor
+    // Inicialização do servidor
     const PORT = process.env.PORT || 3000;
     app.listen(PORT, () => {
       console.log(`Servidor rodando na porta ${PORT}`);
