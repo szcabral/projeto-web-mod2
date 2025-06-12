@@ -84,6 +84,25 @@
       background-color: #D5605E;
     }
 
+    .btn-voltar {
+      background-color: #fff;
+      color: #D5605E;
+      border: 2px solid #D5605E;
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-voltar:hover {
+      background-color: #D5605E;
+      color: white;
+    }
+
     .eventos-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -210,12 +229,14 @@
     <h1>Meus Eventos</h1>
 
     <div class="actions">
+      <button class="btn-voltar" onclick="history.back()">← Voltar</button>
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Buscar eventos..." onkeyup="filtrarEventos()">
       </div>
     </div>
 
     <div class="eventos-grid" id="eventosGrid">
+      <!-- Exemplo de eventos - em produção viria do backend -->
       <div class="evento-card">
         <div class="evento-titulo">Workshop de Fotografia</div>
         <div class="evento-info">
@@ -297,6 +318,7 @@
       </div>
     </div>
 
+    <!-- Estado vazio - mostrar quando não há eventos -->
     <div class="empty-state" id="emptyState" style="display: none;">
       <h3>Nenhum evento encontrado</h3>
       <p>Você ainda não criou nenhum evento ou nenhum evento corresponde à sua busca.</p>
@@ -323,6 +345,7 @@
         }
       });
 
+      // Mostrar estado vazio se não houver resultados
       if (visibleCards === 0 && searchTerm !== '') {
         emptyState.style.display = 'block';
       } else {
@@ -331,11 +354,13 @@
     }
 
     function editarEvento(id) {
+      // Redirecionar para página de edição
       window.location.href = `/editar-evento/${id}`;
     }
 
     function excluirEvento(id) {
       if (confirm('Tem certeza que deseja excluir este evento?')) {
+        // Aqui faria a requisição para o backend
         console.log(`Excluindo evento ${id}`);
         // Após sucesso, remover o card da tela
         const card = event.target.closest('.evento-card');

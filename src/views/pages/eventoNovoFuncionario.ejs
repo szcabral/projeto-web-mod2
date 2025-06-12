@@ -16,13 +16,16 @@
       font-family: 'Montserrat', sans-serif;
       background: linear-gradient(180deg, #fa746f 30%, #D5605E 100%);
       color: #fff;
+      padding: 2rem 0;
     }
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo img {
+      max-width: 250px;
     }
 
     .container {
@@ -30,52 +33,118 @@
       color: #D5605E;
       border-radius: 16px;
       padding: 2rem;
-      width: 100%;
-      max-width: 600px;
+      width: 90%;
+      max-width: 800px;
+      margin: 0 auto;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
     .container h1 {
       text-align: center;
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      font-size: 2rem;
       font-weight: 700;
+      color: #D5605E;
+    }
+
+    .btn-voltar {
+      background-color: #fff;
+      color: #D5605E;
+      border: 2px solid #D5605E;
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+    }
+
+    .btn-voltar:hover {
+      background-color: #D5605E;
+      color: white;
+    }
+
+    .eventos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
     }
 
     .evento {
       background: #fff7f6;
       border: 2px solid #fa746f;
       border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1rem;
+      padding: 1.5rem;
       color: #333;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .evento:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(250, 116, 111, 0.2);
     }
 
     .evento h2 {
-      margin-bottom: 0.5rem;
+      margin-bottom: 1rem;
       font-size: 1.4rem;
       color: #fa746f;
+      font-weight: 700;
     }
 
-    .evento p {
-      margin-bottom: 0.5rem;
-      font-size: 1rem;
+    .evento-info {
+      margin-bottom: 0.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .evento-label {
+      font-weight: 600;
+      color: #D5605E;
+      min-width: 80px;
+    }
+
+    .evento-valor {
+      color: #333;
+      flex: 1;
+    }
+
+    .evento-preco {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fa746f;
+      margin: 1rem 0;
+    }
+
+    .evento-descricao {
+      background: #fff;
+      border-left: 4px solid #fa746f;
+      padding: 0.75rem;
+      margin: 1rem 0;
+      border-radius: 0 8px 8px 0;
+      font-style: italic;
+      color: #666;
     }
 
     .evento form {
       text-align: center;
-      margin-top: 0.75rem;
+      margin-top: 1.5rem;
     }
 
     .evento button {
       background-color: #fa746f;
       color: white;
       border: none;
-      padding: 0.75rem 1.5rem;
+      padding: 0.75rem 2rem;
       border-radius: 16px;
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 1rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
+      width: 100%;
     }
 
     .evento button:hover {
@@ -84,29 +153,175 @@
 
     .sem-eventos {
       text-align: center;
-      color: #888;
+      color: #999;
       font-style: italic;
+      padding: 3rem;
+      grid-column: 1 / -1;
+    }
+
+    .sem-eventos h3 {
+      color: #D5605E;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        width: 95%;
+        padding: 1.5rem;
+      }
+
+      .eventos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .container h1 {
+        font-size: 1.5rem;
+      }
+
+      .evento-info {
+        flex-direction: column;
+        gap: 0.2rem;
+      }
     }
   </style>
 </head>
 <body>
 
+  <div class="logo">
+    <img src="/assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
+  </div>
+
   <div class="container">
+    <button class="btn-voltar" onclick="history.back()">← Voltar</button>
+    
     <h1>Eventos Disponíveis</h1>
 
+    <div class="eventos-grid">
+      <div class="evento">
+        <h2>Workshop de Fotografia Digital</h2>
+        <div class="evento-info">
+          <span class="evento-label">Data:</span>
+          <span class="evento-valor">15/07/2025</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Horário:</span>
+          <span class="evento-valor">14:00 - 18:00</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Cliente:</span>
+          <span class="evento-valor">João Silva</span>
+        </div>
+        <div class="evento-preco">R$ 150,00</div>
+        <div class="evento-descricao">
+          Workshop completo sobre técnicas de fotografia digital para iniciantes e intermediários.
+        </div>
 
-    <div class="evento">
-      <h2>Nome do Evento Exemplo</h2>
-      <p><strong>Data:</strong> 2025-06-15</p>
-      <p><strong>Descrição:</strong> Descrição breve do evento para ilustrar.</p>
+        <form action="/1/eventos" method="GET">
+          <input type="hidden" name="funcionarioId" value="456"/>
+          <button type="submit">Trabalhar neste evento</button>
+        </form>
+      </div>
 
-      <form action="/:id/eventos', funcionarioController.eventos" method="GET">
-        <input type="hidden" name="funcionarioId" value="456"/>
-        <button type="submit">Trabalhar neste evento</button>
-      </form>
+      <div class="evento">
+        <h2>Sessão de Ensaio Casal</h2>
+        <div class="evento-info">
+          <span class="evento-label">Data:</span>
+          <span class="evento-valor">22/07/2025</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Horário:</span>
+          <span class="evento-valor">16:30 - 19:00</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Cliente:</span>
+          <span class="evento-valor">Maria e Carlos Santos</span>
+        </div>
+        <div class="evento-preco">R$ 350,00</div>
+        <div class="evento-descricao">
+          Ensaio fotográfico romântico para casal em ambiente externo com pôr do sol.
+        </div>
+
+        <form action="/2/eventos" method="GET">
+          <input type="hidden" name="funcionarioId" value="456"/>
+          <button type="submit">Trabalhar neste evento</button>
+        </form>
+      </div>
+
+      <div class="evento">
+        <h2>Book Infantil Temático</h2>
+        <div class="evento-info">
+          <span class="evento-label">Data:</span>
+          <span class="evento-valor">05/08/2025</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Horário:</span>
+          <span class="evento-valor">10:00 - 12:00</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Cliente:</span>
+          <span class="evento-valor">Ana Costa</span>
+        </div>
+        <div class="evento-preco">R$ 200,00</div>
+        <div class="evento-descricao">
+          Sessão de fotos infantil com tema de princesa, incluindo figurino e cenário.
+        </div>
+
+        <form action="/3/eventos" method="GET">
+          <input type="hidden" name="funcionarioId" value="456"/>
+          <button type="submit">Trabalhar neste evento</button>
+        </form>
+      </div>
+
+      <div class="evento">
+        <h2>Casamento - Cobertura Completa</h2>
+        <div class="evento-info">
+          <span class="evento-label">Data:</span>
+          <span class="evento-valor">18/08/2025</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Horário:</span>
+          <span class="evento-valor">08:00 - 23:00</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Cliente:</span>
+          <span class="evento-valor">Família Oliveira</span>
+        </div>
+        <div class="evento-preco">R$ 1.500,00</div>
+        <div class="evento-descricao">
+          Cobertura fotográfica completa de casamento, desde o making of até a festa.
+        </div>
+
+        <form action="/4/eventos" method="GET">
+          <input type="hidden" name="funcionarioId" value="456"/>
+          <button type="submit">Trabalhar neste evento</button>
+        </form>
+      </div>
+
+      <!-- Estado vazio - mostrar quando não há eventos -->
+      <!-- <div class="sem-eventos">
+        <h3>Nenhum evento disponível</h3>
+        <p>No momento não há eventos disponíveis para trabalhar.</p>
+      </div> -->
     </div>
-
   </div>
+
+  <script>
+    // Adicionar animação aos cards ao carregar a página
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.evento');
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    });
+  </script>
 
 </body>
 </html>
