@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Meus Agendamentos - Fresh Muse</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(180deg, #fa746f 30%, #D5605E 100%);
+      color: #fff;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    .logo {
+      margin-bottom: 40px;
+      text-align: center;
+    }
+
+    .logo img {
+      max-width: 250px;
+    }
+
+    h1 {
+      margin-bottom: 2rem;
+      font-weight: 700;
+      color: #fff;
+      text-align: center;
+    }
+
+    .agendamentos-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Layout responsivo em grade */
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1200px;
+      padding: 1rem;
+    }
+
+    .agendamento-card {
+      background: #fff;
+      color: #D5605E;
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 200px; 
+    }
+
+    .agendamento-card h2 {
+      margin-top: 0;
+      margin-bottom: 0.75rem;
+      font-weight: 700;
+      color: #fa746f;
+      font-size: 1.5rem;
+    }
+
+    .agendamento-card p {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+      line-height: 1.4;
+    }
+
+    .agendamento-card .data-hora {
+      font-weight: 600;
+      color: #D5605E;
+    }
+
+    .agendamento-card .id-cliente, .agendamento-card .preco {
+        font-size: 0.95rem;
+        color: #666;
+    }
+
+    .agendamento-card .btn-cancelar {
+      background-color: #D5605E;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-top: 1rem;
+      width: 100%; 
+    }
+
+    .agendamento-card .btn-cancelar:hover {
+      background-color: #fa746f;
+    }
+
+    .no-agendamentos {
+      color: #fff;
+      font-size: 1.2rem;
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+      .agendamentos-container {
+        grid-template-columns: 1fr; /* Uma coluna em telas menores */
+        padding: 0;
+      }
+      .logo img {
+        max-width: 200px;
+      }
+      h1 {
+        font-size: 1.8rem;
+      }
+      .agendamento-card {
+        padding: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">
+    <img src="https://via.placeholder.com/250x100?text=Fresh+Muse+Logo" alt="Fresh Muse Logo" /> </div>
+
+  <h1>Meus Agendamentos</h1>
+
+  <div class="agendamentos-container" id="agendamentosList">
+    </div>
+
+  <div id="noAgendamentosMessage" class="no-agendamentos" style="display: none;">
+    Você ainda não possui agendamentos.
+  </div>
+
+  <script>
+    function formatarDataHora(dataStr, horaStr) {
+      const data = new Date(dataStr + 'T' + horaStr);
+      const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+      return data.toLocaleDateString('pt-BR', options);
+    }
+
+
+    async function carregarAgendamentos() {
+      const agendamentosList = document.getElementById('agendamentosList');
+      const noAgendamentosMessage = document.getElementById('noAgendamentosMessage');
+      agendamentosList.innerHTML = ''; 
+
+      const agendamentos = [
+        {
+          id: '1',
+          titulo: 'Sessão de Fotos com Ana',
+          descricao: 'Sessão fotográfica externa no parque Ibirapuera para portfólio de moda.',
+          data: '2025-06-15',
+          horario: '10:00',
+          preco_unitario: 250.00,
+          cliente_id: 456
+        },
+        {
+          id: '2',
+          titulo: 'Reunião de Briefing - Projeto X',
+          descricao: 'Reunião online para discutir os requisitos do novo projeto de design.',
+          data: '2025-06-18',
+          horario: '14:30',
+          preco_unitario: 80.00,
+          cliente_id: 789
+        },
+        {
+          id: '3',
+          titulo: 'Ensaio Casamento Maria & João',
+          descricao: 'Ensaio fotográfico pré-casamento no estúdio.',
+          data: '2025-06-20',
+          horario: '09:00',
+          preco_unitario: 500.00,
+          cliente_id: 101
+        }
+      ];
+
+      if (agendamentos.length === 0) {
+        noAgendamentosMessage.style.display = 'block';
+      } else {
+        noAgendamentosMessage.style.display = 'none';
+        agendamentos.forEach(agendamento => {
+          const card = document.createElement('div');
+          card.classList.add('agendamento-card');
+          card.setAttribute('data-id', agendamento.id);
+
+          const dataHoraFormatada = formatarDataHora(agendamento.data, agendamento.horario);
+          const precoFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(agendamento.preco_unitario);
+
+          card.innerHTML = `
+            <h2>${agendamento.titulo}</h2>
+            ${agendamento.descricao ? `<p>${agendamento.descricao}</p>` : ''}
+            <p class="data-hora">Data: ${dataHoraFormatada}</p>
+            <p class="preco">Preço: ${precoFormatado}</p>
+            <p class="id-cliente">ID do Cliente: ${agendamento.cliente_id}</p>
+            <button class="btn-cancelar" onclick="confirmarCancelamento('${agendamento.id}')">Cancelar Agendamento</button>
+          `;
+          agendamentosList.appendChild(card);
+        });
+      }
+    }
+
+
+    async function confirmarCancelamento(idAgendamento) {
+      if (confirm('Tem certeza que deseja cancelar este agendamento?')) {
+        try {
+
+          console.log(`Agendamento com ID ${idAgendamento} cancelado (simulado).`);
+          alert('Agendamento cancelado com sucesso!');
+          carregarAgendamentos(); 
+        } catch (error) {
+          console.error('Erro ao cancelar agendamento:', error);
+          alert('Erro ao cancelar agendamento. Tente novamente.');
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarAgendamentos);
+  </script>
+
+</body>
+</html>
