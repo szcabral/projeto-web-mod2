@@ -31,6 +31,48 @@
       max-width: 250px;
     }
 
+    /* Estilo para o botão Voltar (similar ao que você já usava) */
+    .btn-voltar {
+      background-color: #fff;
+      color: #D5605E;
+      border: 2px solid #D5605E;
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 1.5rem; /* Espaçamento abaixo do botão */
+      align-self: flex-start; /* Alinha à esquerda dentro do body (que é flex-column) */
+      margin-left: calc(50% - 600px); /* Ajusta para alinhar com o container na largura máxima */
+      max-width: 1200px; /* Limita a largura do contexto para o botão */
+      width: 100%; /* Ocupa a largura total do contexto flexível */
+      text-align: left; /* Garante que o texto fique à esquerda dentro do padding */
+    }
+
+    /* Ajuste para o botão voltar em telas menores */
+    @media (max-width: 1240px) { /* Quando o container começar a diminuir */
+        .btn-voltar {
+            margin-left: 2rem; /* Mantém um padding da borda */
+            margin-right: 2rem;
+        }
+    }
+    @media (max-width: 768px) {
+        .btn-voltar {
+            margin-left: 1rem;
+            margin-right: 1rem;
+            padding: 0.75rem 1rem; /* Diminui um pouco o padding */
+        }
+    }
+
+
+    .btn-voltar:hover {
+      background-color: #D5605E;
+      color: white;
+    }
+
     h1 {
       margin-bottom: 2rem;
       font-weight: 700;
@@ -40,7 +82,7 @@
 
     .agendamentos-container {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Layout responsivo em grade */
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 1.5rem;
       width: 100%;
       max-width: 1200px;
@@ -56,7 +98,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      min-height: 200px; 
+      min-height: 200px;
     }
 
     .agendamento-card h2 {
@@ -94,7 +136,7 @@
       cursor: pointer;
       transition: background-color 0.3s ease;
       margin-top: 1rem;
-      width: 100%; 
+      width: 100%;
     }
 
     .agendamento-card .btn-cancelar:hover {
@@ -108,12 +150,13 @@
       margin-top: 50px;
     }
 
+    /* Media Queries para responsividade */
     @media (max-width: 768px) {
       body {
         padding: 1rem;
       }
       .agendamentos-container {
-        grid-template-columns: 1fr; /* Uma coluna em telas menores */
+        grid-template-columns: 1fr;
         padding: 0;
       }
       .logo img {
@@ -131,7 +174,10 @@
 <body>
 
   <div class="logo">
-    <img src="/assets/fresh_muse_logo.png" alt="Fresh Muse Logo" /> </div>
+    <img src="../assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
+  </div>
+
+  <a href="javascript:history.back()" class="btn-voltar">Voltar</a>
 
   <h1>Meus Agendamentos</h1>
 
@@ -149,11 +195,10 @@
       return data.toLocaleDateString('pt-BR', options);
     }
 
-
     async function carregarAgendamentos() {
       const agendamentosList = document.getElementById('agendamentosList');
       const noAgendamentosMessage = document.getElementById('noAgendamentosMessage');
-      agendamentosList.innerHTML = ''; 
+      agendamentosList.innerHTML = '';
 
       const agendamentos = [
         {
@@ -210,14 +255,12 @@
       }
     }
 
-
     async function confirmarCancelamento(idAgendamento) {
       if (confirm('Tem certeza que deseja cancelar este agendamento?')) {
         try {
-
           console.log(`Agendamento com ID ${idAgendamento} cancelado (simulado).`);
           alert('Agendamento cancelado com sucesso!');
-          carregarAgendamentos(); 
+          carregarAgendamentos();
         } catch (error) {
           console.error('Erro ao cancelar agendamento:', error);
           alert('Erro ao cancelar agendamento. Tente novamente.');
