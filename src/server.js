@@ -47,7 +47,7 @@ db.connect()
     });
 
     app.get('/clienteDashboard', (req, res) => {
-      res.render('clienteDashboard'); // clienteDashboard.ejs deve estar em views/pages
+      res.render('clienteDashboard');
     });
 
     app.get('/eventoNovo', (req, res) => {
