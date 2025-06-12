@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Meus Eventos - Fresh Muse</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     html, body {
       height: 100%;
+      margin: 0;
       font-family: 'Montserrat', sans-serif;
       background: linear-gradient(180deg, #fa746f 30%, #D5605E 100%);
       color: #fff;
+      padding: 2rem 0;
     }
 
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 2rem;
+    .logo {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo img {
+      max-width: 250px;
     }
 
     .container {
@@ -30,86 +28,347 @@
       color: #D5605E;
       border-radius: 16px;
       padding: 2rem;
-      width: 100%;
-      max-width: 600px;
+      width: 90%;
+      max-width: 900px;
+      margin: 0 auto;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
     }
 
-    .container h1 {
+    h1 {
       text-align: center;
-      margin-bottom: 1.5rem;
-      font-size: 1.8rem;
+      margin-bottom: 2rem;
       font-weight: 700;
+      color: #D5605E;
+      font-size: 2rem;
     }
 
-    .evento {
-      background: #fff7f6;
-      border: 2px solid #fa746f;
-      border-radius: 12px;
-      padding: 1rem;
-      margin-bottom: 1rem;
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 2px solid #D5605E;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: 'Montserrat', sans-serif;
       color: #333;
     }
 
-    .evento h2 {
-      margin-bottom: 0.5rem;
-      font-size: 1.4rem;
-      color: #fa746f;
-    }
-
-    .evento p {
-      margin-bottom: 0.5rem;
-      font-size: 1rem;
-    }
-
-    .evento form {
-      text-align: center;
-      margin-top: 0.75rem;
-    }
-
-    .evento button {
+    .btn-novo {
       background-color: #fa746f;
       color: white;
       border: none;
       padding: 0.75rem 1.5rem;
       border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-novo:hover {
+      background-color: #D5605E;
+    }
+
+    .eventos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .evento-card {
+      border: 2px solid #D5605E;
+      border-radius: 12px;
+      padding: 1.5rem;
+      background: #fff;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .evento-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(213, 96, 94, 0.2);
+    }
+
+    .evento-titulo {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #D5605E;
+      margin-bottom: 1rem;
+    }
+
+    .evento-info {
+      margin-bottom: 0.8rem;
+    }
+
+    .evento-label {
       font-weight: 600;
+      color: #D5605E;
+      display: inline-block;
+      min-width: 80px;
+    }
+
+    .evento-valor {
+      color: #333;
+    }
+
+    .evento-preco {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fa746f;
+      margin: 1rem 0;
+    }
+
+    .evento-acoes {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .btn-small {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
     }
 
-    .evento button:hover {
+    .btn-editar {
+      background-color: #fa746f;
+      color: white;
+    }
+
+    .btn-editar:hover {
       background-color: #D5605E;
     }
 
-    .sem-eventos {
+    .btn-excluir {
+      background-color: #fff;
+      color: #D5605E;
+      border: 2px solid #D5605E;
+    }
+
+    .btn-excluir:hover {
+      background-color: #D5605E;
+      color: white;
+    }
+
+    .empty-state {
       text-align: center;
-      color: #888;
-      font-style: italic;
+      padding: 3rem;
+      color: #999;
+    }
+
+    .empty-state h3 {
+      color: #D5605E;
+      margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        width: 95%;
+        padding: 1.5rem;
+      }
+
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .eventos-grid {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
     }
   </style>
 </head>
 <body>
 
+  <div class="logo">
+    <img src="/assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
+  </div>
+
   <div class="container">
     <h1>Meus Eventos</h1>
 
-    <div class="sem-eventos">
-      <p>Você ainda não tem eventos agendados.</p>
+    <div class="actions">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar eventos..." onkeyup="filtrarEventos()">
+      </div>
     </div>
 
-    <div class="evento">
-      <h2>Nome do Evento Exemplo</h2>
-      <p><strong>Data:</strong> 2025-06-15</p>
-      <p><strong>Descrição:</strong> Descrição breve do evento para ilustrar.</p>
+    <div class="eventos-grid" id="eventosGrid">
+      <!-- Exemplo de eventos - em produção viria do backend -->
+      <div class="evento-card">
+        <div class="evento-titulo">Workshop de Fotografia</div>
+        <div class="evento-info">
+          <span class="evento-label">Data:</span>
+          <span class="evento-valor">15/07/2025</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Horário:</span>
+          <span class="evento-valor">14:00</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Cliente:</span>
+          <span class="evento-valor">João Silva (#001)</span>
+        </div>
+        <div class="evento-preco">R$ 150,00</div>
+        <div class="evento-acoes">
+          <button class="btn-small btn-excluir" onclick="excluirEvento(1)">Excluir</button>
+        </div>
+      </div>
 
-      <form action="/:id/eventos', funcionarioController.eventos" method="GET">
-        <input type="hidden" name="funcionarioId" value="456"/>
-        <button type="submit">Deletar Evento</button>
-      </form>
+      <div class="evento-card">
+        <div class="evento-titulo">Sessão de Ensaio Casal</div>
+        <div class="evento-info">
+          <span class="evento-label">Data:</span>
+          <span class="evento-valor">22/07/2025</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Horário:</span>
+          <span class="evento-valor">16:30</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Cliente:</span>
+          <span class="evento-valor">Maria Santos (#002)</span>
+        </div>
+        <div class="evento-preco">R$ 350,00</div>
+        <div class="evento-acoes">
+          <button class="btn-small btn-excluir" onclick="excluirEvento(2)">Excluir</button>
+        </div>
+      </div>
+
+      <div class="evento-card">
+        <div class="evento-titulo">Book Infantil</div>
+        <div class="evento-info">
+          <span class="evento-label">Data:</span>
+          <span class="evento-valor">05/08/2025</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Horário:</span>
+          <span class="evento-valor">10:00</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Cliente:</span>
+          <span class="evento-valor">Ana Costa (#003)</span>
+        </div>
+        <div class="evento-preco">R$ 200,00</div>
+        <div class="evento-acoes">
+          <button class="btn-small btn-excluir" onclick="excluirEvento(3)">Excluir</button>
+        </div>
+      </div>
+
+      <div class="evento-card">
+        <div class="evento-titulo">Casamento - Cobertura Completa</div>
+        <div class="evento-info">
+          <span class="evento-label">Data:</span>
+          <span class="evento-valor">18/08/2025</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Horário:</span>
+          <span class="evento-valor">08:00</span>
+        </div>
+        <div class="evento-info">
+          <span class="evento-label">Cliente:</span>
+          <span class="evento-valor">Carlos Oliveira (#004)</span>
+        </div>
+        <div class="evento-preco">R$ 1.500,00</div>
+        <div class="evento-acoes">
+          <button class="btn-small btn-excluir" onclick="excluirEvento(4)">Excluir</button>
+        </div>
+      </div>
     </div>
 
+    <!-- Estado vazio - mostrar quando não há eventos -->
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <h3>Nenhum evento encontrado</h3>
+      <p>Você ainda não criou nenhum evento ou nenhum evento corresponde à sua busca.</p>
+      <a href="/novo-evento" class="btn-novo">Criar Primeiro Evento</a>
+    </div>
   </div>
+
+  <script>
+    function filtrarEventos() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const eventCards = document.querySelectorAll('.evento-card');
+      const emptyState = document.getElementById('emptyState');
+      let visibleCards = 0;
+
+      eventCards.forEach(card => {
+        const titulo = card.querySelector('.evento-titulo').textContent.toLowerCase();
+        const cliente = card.querySelector('.evento-valor').textContent.toLowerCase();
+        
+        if (titulo.includes(searchTerm) || cliente.includes(searchTerm)) {
+          card.style.display = 'block';
+          visibleCards++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      // Mostrar estado vazio se não houver resultados
+      if (visibleCards === 0 && searchTerm !== '') {
+        emptyState.style.display = 'block';
+      } else {
+        emptyState.style.display = 'none';
+      }
+    }
+
+    function editarEvento(id) {
+      // Redirecionar para página de edição
+      window.location.href = `/editar-evento/${id}`;
+    }
+
+    function excluirEvento(id) {
+      if (confirm('Tem certeza que deseja excluir este evento?')) {
+        // Aqui faria a requisição para o backend
+        console.log(`Excluindo evento ${id}`);
+        // Após sucesso, remover o card da tela
+        const card = event.target.closest('.evento-card');
+        card.remove();
+        
+        // Verificar se ainda há eventos visíveis
+        const remainingCards = document.querySelectorAll('.evento-card').length;
+        if (remainingCards === 0) {
+          document.getElementById('emptyState').style.display = 'block';
+        }
+      }
+    }
+
+    // Adicionar animação aos cards ao carregar a página
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.evento-card');
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+          card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+          card.style.opacity = '1';
+          card.style.transform = 'translateY(0)';
+        }, index * 100);
+      });
+    });
+  </script>
 
 </body>
 </html>
