@@ -191,12 +191,8 @@
   </div>
 
   <script>
-    // Interceptar o envio do formulário
     document.getElementById('eventoForm').addEventListener('submit', function(e) {
       e.preventDefault();
-      
-      // Aqui você faria a requisição AJAX para criar o evento
-      // Exemplo com fetch API:
       
       const formData = new FormData(this);
       
@@ -206,7 +202,7 @@
       })
       .then(response => {
         if (response.ok) {
-          // Evento criado com sucesso, voltar para a página anterior
+
           alert('Evento criado com sucesso!');
           history.back();
         } else {
@@ -219,10 +215,7 @@
       });
     });
 
-    // Alternativa: se você quiser usar o método tradicional do form
-    // e redirecionar via backend, você pode remover o JavaScript acima
-    // e no seu controller backend, após criar o evento, fazer:
-    // res.redirect('back') ou res.redirect(req.get('Referer'))
+
   </script>
 
 </body>
