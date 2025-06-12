@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meus Eventos - Fresh Muse</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Montserrat', sans-serif;
+      background: linear-gradient(180deg, #fa746f 30%, #D5605E 100%);
+      color: #fff;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .container {
+      background: #fff;
+      color: #D5605E;
+      border-radius: 16px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 600px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .container h1 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+    }
+
+    .evento {
+      background: #fff7f6;
+      border: 2px solid #fa746f;
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      color: #333;
+    }
+
+    .evento h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.4rem;
+      color: #fa746f;
+    }
+
+    .evento p {
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .evento form {
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    .evento button {
+      background-color: #fa746f;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .evento button:hover {
+      background-color: #D5605E;
+    }
+
+    .sem-eventos {
+      text-align: center;
+      color: #888;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Meus Eventos</h1>
+
+    <div class="sem-eventos">
+      <p>Você ainda não tem eventos agendados.</p>
+    </div>
+
+    <div class="evento">
+      <h2>Nome do Evento Exemplo</h2>
+      <p><strong>Data:</strong> 2025-06-15</p>
+      <p><strong>Descrição:</strong> Descrição breve do evento para ilustrar.</p>
+
+      <form action="/:id/eventos', funcionarioController.eventos" method="GET">
+        <input type="hidden" name="funcionarioId" value="456"/>
+        <button type="submit">Deletar Evento</button>
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>
