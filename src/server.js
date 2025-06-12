@@ -58,6 +58,10 @@ db.connect()
   res.render('eventoNovoFuncionario');
     });
 
+        app.get('/meusEventosCliente', (req, res) => {
+  res.render('meusEventosCliente');
+    });
+
     app.use((req, res, next) => {
       res.status(404).send('Página não encontrada');
     });
