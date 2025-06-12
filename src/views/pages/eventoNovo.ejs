@@ -43,6 +43,27 @@
       text-align: center;
     }
 
+    .btn-voltar {
+      background-color: #fff;
+      color: #D5605E;
+      border: 2px solid #D5605E;
+      padding: 0.75rem 1.5rem;
+      border-radius: 16px;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      align-self: flex-start;
+    }
+
+    .btn-voltar:hover {
+      background-color: #D5605E;
+      color: white;
+    }
+
     h1 {
       margin-bottom: 1.5rem;
       font-weight: 700;
@@ -86,7 +107,14 @@
       text-align: left;
     }
 
-    input[type="submit"] {
+    .form-buttons {
+      display: flex;
+      gap: 1rem;
+      width: 80%;
+      margin-top: 1rem;
+    }
+
+    input[type="submit"], .btn-cancelar {
       background-color: #fa746f;
       color: white;
       border: none;
@@ -96,12 +124,36 @@
       font-size: 1.1rem;
       cursor: pointer;
       transition: background-color 0.3s ease;
-      width: 80%;
-      align-self: center;
+      flex: 1;
     }
 
     input[type="submit"]:hover {
       background-color: #D5605E;
+    }
+
+    .btn-cancelar {
+      background-color: #fff;
+      color: #D5605E;
+      border: 2px solid #D5605E;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn-cancelar:hover {
+      background-color: #D5605E;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .form-buttons {
+        flex-direction: column;
+      }
+      
+      .container {
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -112,9 +164,10 @@
   </div>
 
   <div class="container">
+    
     <h1>Criar Novo Evento</h1>
 
-    <form action="/evento" method="POST">
+    <form id="eventoForm" action="/evento" method="POST">
       <label for="titulo">Título do Evento</label>
       <input type="text" id="titulo" name="titulo" required />
 
@@ -130,9 +183,47 @@
       <label for="cliente_id">ID do Cliente</label>
       <input type="number" id="cliente_id" name="cliente_id" required />
 
-      <input type="submit" value="Criar Evento" />
+      <div class="form-buttons">
+        <a href="javascript:history.back()" class="btn-cancelar">Cancelar</a>
+        <input type="submit" value="Criar Evento" />
+      </div>
     </form>
   </div>
+
+  <script>
+    // Interceptar o envio do formulário
+    document.getElementById('eventoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Aqui você faria a requisição AJAX para criar o evento
+      // Exemplo com fetch API:
+      
+      const formData = new FormData(this);
+      
+      fetch('/evento', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => {
+        if (response.ok) {
+          // Evento criado com sucesso, voltar para a página anterior
+          alert('Evento criado com sucesso!');
+          history.back();
+        } else {
+          throw new Error('Erro ao criar evento');
+        }
+      })
+      .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao criar evento. Tente novamente.');
+      });
+    });
+
+    // Alternativa: se você quiser usar o método tradicional do form
+    // e redirecionar via backend, você pode remover o JavaScript acima
+    // e no seu controller backend, após criar o evento, fazer:
+    // res.redirect('back') ou res.redirect(req.get('Referer'))
+  </script>
 
 </body>
 </html>
