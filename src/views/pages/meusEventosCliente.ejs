@@ -44,18 +44,17 @@
       transition: all 0.3s ease;
       text-decoration: none;
       display: inline-block;
-      margin-bottom: 1.5rem; /* Espaçamento abaixo do botão */
-      align-self: flex-start; /* Alinha à esquerda dentro do body (que é flex-column) */
-      margin-left: calc(50% - 600px); /* Ajusta para alinhar com o container na largura máxima */
-      max-width: 1200px; /* Limita a largura do contexto para o botão */
-      width: 100%; /* Ocupa a largura total do contexto flexível */
-      text-align: left; /* Garante que o texto fique à esquerda dentro do padding */
+      margin-bottom: 1.5rem; 
+      align-self: flex-start;
+      margin-left: calc(50% - 600px);
+      max-width: 1200px;
+      width: 100%;
+      text-align: left;
     }
 
-    /* Ajuste para o botão voltar em telas menores */
-    @media (max-width: 1240px) { /* Quando o container começar a diminuir */
+    @media (max-width: 1240px) { 
         .btn-voltar {
-            margin-left: 2rem; /* Mantém um padding da borda */
+            margin-left: 2rem; 
             margin-right: 2rem;
         }
     }
@@ -63,7 +62,7 @@
         .btn-voltar {
             margin-left: 1rem;
             margin-right: 1rem;
-            padding: 0.75rem 1rem; /* Diminui um pouco o padding */
+            padding: 0.75rem 1rem; 
         }
     }
 
@@ -150,7 +149,6 @@
       margin-top: 50px;
     }
 
-    /* Media Queries para responsividade */
     @media (max-width: 768px) {
       body {
         padding: 1rem;
