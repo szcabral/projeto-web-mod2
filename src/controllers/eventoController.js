@@ -4,7 +4,7 @@ const eventoController = {
   async listarTodos(req, res) {
     try {
       const eventos = await eventoService.listarTodos();
-      res.json(eventos);
+      res.render('meusEventos', { eventos });
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

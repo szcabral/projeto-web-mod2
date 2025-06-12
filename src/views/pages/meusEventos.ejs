@@ -216,7 +216,6 @@
     </div>
 
     <div class="eventos-grid" id="eventosGrid">
-      <!-- Exemplo de eventos - em produção viria do backend -->
       <div class="evento-card">
         <div class="evento-titulo">Workshop de Fotografia</div>
         <div class="evento-info">
@@ -298,7 +297,6 @@
       </div>
     </div>
 
-    <!-- Estado vazio - mostrar quando não há eventos -->
     <div class="empty-state" id="emptyState" style="display: none;">
       <h3>Nenhum evento encontrado</h3>
       <p>Você ainda não criou nenhum evento ou nenhum evento corresponde à sua busca.</p>
@@ -325,7 +323,6 @@
         }
       });
 
-      // Mostrar estado vazio se não houver resultados
       if (visibleCards === 0 && searchTerm !== '') {
         emptyState.style.display = 'block';
       } else {
@@ -334,13 +331,11 @@
     }
 
     function editarEvento(id) {
-      // Redirecionar para página de edição
       window.location.href = `/editar-evento/${id}`;
     }
 
     function excluirEvento(id) {
       if (confirm('Tem certeza que deseja excluir este evento?')) {
-        // Aqui faria a requisição para o backend
         console.log(`Excluindo evento ${id}`);
         // Após sucesso, remover o card da tela
         const card = event.target.closest('.evento-card');

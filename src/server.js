@@ -6,7 +6,7 @@ const path = require('path');
 
 
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'views', 'pages'));
 
 db.connect()
   .then(() => {
@@ -31,31 +31,31 @@ db.connect()
 
 
     app.get('/', (req, res) => {
-      res.render('pages/home');
+      res.render('home');
     });
 
     app.get('/login-clientes', (req, res) => {
-      res.render('pages/login');
+      res.render('login');
     });
 
     app.get('/login-funcionarios', (req, res) => {
-      res.render('pages/login-funcionarios');
+      res.render('login-funcionarios');
     });
 
     app.get('/funcionarioDashboard', (req, res) => {
-      res.render('pages/funcionarioDashboard');
+      res.render('funcionarioDashboard');
     });
 
     app.get('/clienteDashboard', (req, res) => {
-      res.render('pages/clienteDashboard'); // clienteDashboard.ejs deve estar em views/pages
+      res.render('clienteDashboard'); // clienteDashboard.ejs deve estar em views/pages
     });
 
     app.get('/eventoNovo', (req, res) => {
-  res.render('pages/eventoNovo');
+  res.render('eventoNovo');
     });
 
         app.get('/eventoNovoFuncionario', (req, res) => {
-  res.render('pages/eventoNovoFuncionario');
+  res.render('eventoNovoFuncionario');
     });
 
     app.use((req, res, next) => {
