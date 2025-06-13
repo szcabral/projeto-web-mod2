@@ -15,9 +15,11 @@
 
     body {
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       padding: 2rem;
+      min-height: 100vh;
     }
 
     .logo {
@@ -35,7 +37,7 @@
       border-radius: 16px;
       padding: 2rem;
       width: 100%;
-      max-width: 500px;
+      max-width: 600px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       display: flex;
       flex-direction: column;
@@ -77,6 +79,20 @@
       align-items: center;
     }
 
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
     label {
       display: block;
       margin-bottom: 0.5rem;
@@ -90,16 +106,18 @@
     input[type="date"],
     input[type="time"],
     input[type="number"],
+    select,
     textarea {
-      width: 80%;
+      width: 100%;
       padding: 0.75rem;
       border: 2px solid #D5605E;
       border-radius: 8px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       font-size: 1rem;
       font-family: 'Montserrat', sans-serif;
       color: #333;
       resize: vertical;
+      box-sizing: border-box;
     }
 
     textarea {
@@ -107,10 +125,14 @@
       text-align: left;
     }
 
+    select {
+      cursor: pointer;
+    }
+
     .form-buttons {
       display: flex;
       gap: 1rem;
-      width: 80%;
+      width: 100%;
       margin-top: 1rem;
     }
 
@@ -147,6 +169,10 @@
     }
 
     @media (max-width: 768px) {
+      .form-row {
+        flex-direction: column;
+      }
+      
       .form-buttons {
         flex-direction: column;
       }
@@ -164,64 +190,77 @@
   </div>
 
   <div class="container">
+    <a href="/clienteDashboard" class="btn-voltar">← Voltar</a>
     
     <h1>Criar Novo Evento</h1>
 
-    <form id="eventoForm" action="/evento" method="POST">
-      <label for="titulo">Título do Evento</label>
-      <input type="text" id="titulo" name="titulo" required />
+    <form id="eventoForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nome">Nome do Evento *</label>
+          <input type="text" id="nome" name="nome" required />
+        </div>
+        <div class="form-group">
+          <label for="tipo_evento">Tipo de Evento *</label>
+          <select id="tipo_evento" name="tipo_evento" required>
+            <option value="">Selecione o tipo</option>
+            <option value="casamento">Casamento</option>
+            <option value="aniversario">Aniversário</option>
+            <option value="corporativo">Corporativo</option>
+            <option value="formatura">Formatura</option>
+            <option value="festa_infantil">Festa Infantil</option>
+            <option value="outro">Outro</option>
+          </select>
+        </div>
+      </div>
 
-      <label for="data">Data</label>
-      <input type="date" id="data" name="data" required />
+      <div class="form-row">
+        <div class="form-group">
+          <label for="data_evento">Data do Evento *</label>
+          <input type="date" id="data_evento" name="data_evento" required />
+        </div>
+        <div class="form-group">
+          <label for="horario">Horário *</label>
+          <input type="time" id="horario" name="horario" required />
+        </div>
+      </div>
 
-      <label for="horario">Horário</label>
-      <input type="time" id="horario" name="horario" required />
+      <div class="form-group" style="width: 100%;">
+        <label for="local">Local do Evento *</label>
+        <input type="text" id="local" name="local" placeholder="Ex: Salão de Festas ABC, Rua das Flores, 123" required />
+      </div>
 
-      <label for="preco_unitario">Preço Unitário (R$)</label>
-      <input type="number" id="preco_unitario" name="preco_unitario" step="0.01" required />
+      <div class="form-row">
+        <div class="form-group">
+          <label for="numero_convidados">Número de Convidados</label>
+          <input type="number" id="numero_convidados" name="numero_convidados" min="1" placeholder="Ex: 50" />
+        </div>
+        <div class="form-group">
+          <label for="orcamento">Orçamento (R$)</label>
+          <input type="number" id="orcamento" name="orcamento" step="0.01" min="0" placeholder="Ex: 5000.00" />
+        </div>
+      </div>
 
-      <label for="cliente_id">ID do Cliente</label>
-      <input type="number" id="cliente_id" name="cliente_id" required />
+      <div class="form-group" style="width: 100%;">
+        <label for="descricao">Descrição do Evento</label>
+        <textarea id="descricao" name="descricao" placeholder="Descreva detalhes importantes sobre o evento..."></textarea>
+      </div>
+
+      <div class="form-group" style="width: 100%;">
+        <label for="observacoes">Observações Especiais</label>
+        <textarea id="observacoes" name="observacoes" placeholder="Alguma observação especial ou requisito específico..."></textarea>
+      </div>
 
       <div class="form-buttons">
-        <a href="javascript:history.back()" class="btn-cancelar">Cancelar</a>
+        <a href="/clienteDashboard" class="btn-cancelar">Cancelar</a>
         <input type="submit" value="Criar Evento" />
       </div>
     </form>
   </div>
 
- <script>
-document.getElementById('eventoForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  
-  const formData = {
-    titulo: document.getElementById('titulo').value,
-    data: document.getElementById('data').value,
-    descricao: document.getElementById('descricao').value,
-    cliente_id: document.getElementById('cliente_id').value
-  };
-
-  try {
-    const response = await fetch('/eventos', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    });
-
-    if (response.ok) {
-      alert('Evento criado com sucesso!');
-      window.location.href = '/clienteDashboard';
-    } else {
-      throw new Error('Erro ao criar evento');
-    }
-  } catch (error) {
-    console.error('Erro:', error);
-    alert('Erro ao criar evento. Tente novamente.');
-  }
-});
-</script>
+  <script src="/js/fresh-muse-api.js"></script>
+  <script src="/js/evento-novo.js"></script>
 
 </body>
 </html>
+
