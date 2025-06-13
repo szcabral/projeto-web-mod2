@@ -29,6 +29,7 @@
     .titulo {
       font-size: 2rem;
       margin-bottom: 30px;
+      text-align: center;
     }
 
     .quadros {
@@ -62,21 +63,31 @@
       border-color: #fa746f;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
       transform: translateY(-6px);
-      display: flex;
     }
 
     .quadro img {
-      width: 1200px;
+      width: 120px;
       height: 120px;
       object-fit: contain;
       margin-bottom: 15px;
-      display: flex;
     }
 
     footer {
       margin-top: auto;
       padding: 20px;
       color: #ffdcdc;
+    }
+
+    @media (max-width: 768px) {
+      .quadros {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .titulo {
+        font-size: 1.5rem;
+        padding: 0 20px;
+      }
     }
   </style>
 </head>
@@ -90,11 +101,10 @@
 
   <div class="quadros">
 
- <a href="/eventoNovo" class="quadro">
-  <img src="/assets/novoEvento.png" alt="Criar Evento" />
-  <div>Novo Evento</div>
-</a>
-
+    <a href="/eventoNovo" class="quadro">
+      <img src="/assets/novoEvento.png" alt="Criar Evento" />
+      <div>Novo Evento</div>
+    </a>
 
     <a href="/meusEventosCliente" class="quadro">
       <img src="/assets/meusEventos.png" alt="Meus Eventos">
@@ -108,6 +118,9 @@
   </div>
 
   <footer>© 2025 Fresh Muse</footer>
+
+  <script src="/js/fresh-muse-api.js"></script>
+  <script src="/js/cliente-dashboard.js"></script>
 
 </body>
 </html>
