@@ -1,8 +1,12 @@
+// Arquivo principal para conexão frontend-backend
+// Fresh Muse - Sistema de Gestão de Eventos
+
 class FreshMuseAPI {
     constructor() {
         this.baseURL = window.location.origin;
     }
 
+    // Método genérico para fazer requisições
     async request(endpoint, options = {}) {
         const url = `${this.baseURL}${endpoint}`;
         const config = {
@@ -28,6 +32,7 @@ class FreshMuseAPI {
         }
     }
 
+    // Métodos para Clientes
     async criarCliente(dadosCliente) {
         return this.request('/clientes', {
             method: 'POST',
@@ -63,6 +68,7 @@ class FreshMuseAPI {
         });
     }
 
+    // Métodos para Funcionários
     async criarFuncionario(dadosFuncionario) {
         return this.request('/funcionarios', {
             method: 'POST',
@@ -98,6 +104,7 @@ class FreshMuseAPI {
         });
     }
 
+    // Métodos para Eventos
     async criarEvento(dadosEvento) {
         return this.request('/eventos', {
             method: 'POST',
@@ -126,6 +133,7 @@ class FreshMuseAPI {
         });
     }
 
+    // Métodos para Serviços
     async criarServico(dadosServico) {
         return this.request('/servicos', {
             method: 'POST',
@@ -154,6 +162,7 @@ class FreshMuseAPI {
         });
     }
 
+    // Métodos para Agendamentos
     async criarAgendamento(dadosAgendamento) {
         return this.request('/agendamentos', {
             method: 'POST',
@@ -183,16 +192,19 @@ class FreshMuseAPI {
     }
 }
 
+// Utilitários para UI
 class UIUtils {
     static showMessage(message, type = 'info') {
-
+        // Remove mensagens anteriores
         const existingMessages = document.querySelectorAll('.fresh-muse-message');
         existingMessages.forEach(msg => msg.remove());
 
+        // Cria nova mensagem
         const messageDiv = document.createElement('div');
         messageDiv.className = `fresh-muse-message fresh-muse-message-${type}`;
         messageDiv.textContent = message;
-
+        
+        // Estilos da mensagem
         messageDiv.style.cssText = `
             position: fixed;
             top: 20px;
@@ -207,6 +219,7 @@ class UIUtils {
             animation: slideIn 0.3s ease;
         `;
 
+        // Cores por tipo
         const colors = {
             success: '#4CAF50',
             error: '#f44336',
@@ -215,8 +228,10 @@ class UIUtils {
         };
         messageDiv.style.backgroundColor = colors[type] || colors.info;
 
+        // Adiciona ao DOM
         document.body.appendChild(messageDiv);
 
+        // Remove após 5 segundos
         setTimeout(() => {
             messageDiv.style.animation = 'slideOut 0.3s ease';
             setTimeout(() => messageDiv.remove(), 300);
@@ -272,10 +287,12 @@ class UIUtils {
             }
         });
 
+        // Validação de email
         if (formData.email && !this.isValidEmail(formData.email)) {
             errors.push('Email inválido');
         }
 
+        // Validação de CPF (básica)
         if (formData.cpf && !this.isValidCPF(formData.cpf)) {
             errors.push('CPF inválido');
         }
@@ -289,14 +306,16 @@ class UIUtils {
     }
 
     static isValidCPF(cpf) {
-
+        // Remove caracteres não numéricos
         cpf = cpf.replace(/[^\d]/g, '');
         
+        // Verifica se tem 11 dígitos
         if (cpf.length !== 11) return false;
         
+        // Verifica se todos os dígitos são iguais
         if (/^(\d)\1{10}$/.test(cpf)) return false;
         
-        return true;
+        return true; // Validação básica, pode ser melhorada
     }
 
     static formatCPF(cpf) {
@@ -315,6 +334,7 @@ class UIUtils {
     }
 }
 
+// Adiciona estilos CSS para animações
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
@@ -334,6 +354,7 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
+// Instância global da API
 window.freshMuseAPI = new FreshMuseAPI();
 window.UIUtils = UIUtils;
 
