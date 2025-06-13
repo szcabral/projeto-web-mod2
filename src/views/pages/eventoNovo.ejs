@@ -190,33 +190,38 @@
     </form>
   </div>
 
-  <script>
-    document.getElementById('eventoForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const formData = new FormData(this);
-      
-      fetch('/evento', {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => {
-        if (response.ok) {
+ <script>
+document.getElementById('eventoForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const formData = {
+    titulo: document.getElementById('titulo').value,
+    data: document.getElementById('data').value,
+    descricao: document.getElementById('descricao').value,
+    cliente_id: document.getElementById('cliente_id').value
+  };
 
-          alert('Evento criado com sucesso!');
-          history.back();
-        } else {
-          throw new Error('Erro ao criar evento');
-        }
-      })
-      .catch(error => {
-        console.error('Erro:', error);
-        alert('Erro ao criar evento. Tente novamente.');
-      });
+  try {
+    const response = await fetch('/eventos', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
     });
 
-
-  </script>
+    if (response.ok) {
+      alert('Evento criado com sucesso!');
+      window.location.href = '/clienteDashboard';
+    } else {
+      throw new Error('Erro ao criar evento');
+    }
+  } catch (error) {
+    console.error('Erro:', error);
+    alert('Erro ao criar evento. Tente novamente.');
+  }
+});
+</script>
 
 </body>
 </html>
