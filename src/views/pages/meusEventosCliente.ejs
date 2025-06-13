@@ -6,6 +6,7 @@
   <title>Meus Agendamentos - Fresh Muse</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
+    
     html, body {
       height: 100%;
       margin: 0;
@@ -31,7 +32,6 @@
       max-width: 250px;
     }
 
-    /* Estilo para o botão Voltar (similar ao que você já usava) */
     .btn-voltar {
       background-color: #fff;
       color: #D5605E;
@@ -186,88 +186,119 @@
     Você ainda não possui agendamentos.
   </div>
 
-  <script>
-    function formatarDataHora(dataStr, horaStr) {
-      const data = new Date(dataStr + 'T' + horaStr);
-      const options = { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
-      return data.toLocaleDateString('pt-BR', options);
-    }
-
-    async function carregarAgendamentos() {
-      const agendamentosList = document.getElementById('agendamentosList');
-      const noAgendamentosMessage = document.getElementById('noAgendamentosMessage');
-      agendamentosList.innerHTML = '';
-
-      const agendamentos = [
-        {
-          id: '1',
-          titulo: 'Sessão de Fotos com Ana',
-          descricao: 'Sessão fotográfica externa no parque Ibirapuera para portfólio de moda.',
-          data: '2025-06-15',
-          horario: '10:00',
-          preco_unitario: 250.00,
-          cliente_id: 456
-        },
-        {
-          id: '2',
-          titulo: 'Reunião de Briefing - Projeto X',
-          descricao: 'Reunião online para discutir os requisitos do novo projeto de design.',
-          data: '2025-06-18',
-          horario: '14:30',
-          preco_unitario: 80.00,
-          cliente_id: 789
-        },
-        {
-          id: '3',
-          titulo: 'Ensaio Casamento Maria & João',
-          descricao: 'Ensaio fotográfico pré-casamento no estúdio.',
-          data: '2025-06-20',
-          horario: '09:00',
-          preco_unitario: 500.00,
-          cliente_id: 101
+<script>
+async function carregarEventos() {
+    try {
+        const response = await fetch('/api/eventos');
+        if (!response.ok) {
+            throw new Error('Erro ao buscar eventos');
         }
-      ];
+        
+        const eventos = await response.json();
+        const containerEventos = document.querySelector('.eventos-container');
+        
+        if (eventos.length === 0) {
+            containerEventos.innerHTML = '<p>Nenhum evento encontrado.</p>';
+            return;
+        }
 
-      if (agendamentos.length === 0) {
-        noAgendamentosMessage.style.display = 'block';
-      } else {
-        noAgendamentosMessage.style.display = 'none';
-        agendamentos.forEach(agendamento => {
-          const card = document.createElement('div');
-          card.classList.add('agendamento-card');
-          card.setAttribute('data-id', agendamento.id);
+        containerEventos.innerHTML = eventos.map(evento => `
+            <div class="evento-card">
+                <div class="evento-header">
+                    <h3>${evento.titulo}</h3>
+                    <div class="evento-acoes">
+                        <button onclick="editarEvento(${evento.id})" class="btn-editar">
+                            <i class="fas fa-edit"></i> Editar
+                        </button>
+                        <button onclick="deletarEvento(${evento.id})" class="btn-deletar">
+                            <i class="fas fa-trash"></i> Excluir
+                        </button>
+                    </div>
+                </div>
+                <div class="evento-detalhes">
+                    <p><strong>Data:</strong> ${formatarData(evento.data)}</p>
+                    <p><strong>Descrição:</strong> ${evento.descricao || 'Sem descrição'}</p>
+                    <p><strong>Status:</strong> 
+                        <span class="${getStatusClass(evento.status)}">
+                            ${evento.status}
+                        </span>
+                    </p>
+                </div>
+            </div>
+        `).join('');
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarMensagem('Erro ao carregar eventos. Tente novamente.', 'erro');
+    }
+}
 
-          const dataHoraFormatada = formatarDataHora(agendamento.data, agendamento.horario);
-          const precoFormatado = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(agendamento.preco_unitario);
+function formatarData(data) {
+    return new Date(data).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+}
 
-          card.innerHTML = `
-            <h2>${agendamento.titulo}</h2>
-            ${agendamento.descricao ? `<p>${agendamento.descricao}</p>` : ''}
-            <p class="data-hora">Data: ${dataHoraFormatada}</p>
-            <p class="preco">Preço: ${precoFormatado}</p>
-            <p class="id-cliente">ID do Cliente: ${agendamento.cliente_id}</p>
-            <button class="btn-cancelar" onclick="confirmarCancelamento('${agendamento.id}')">Cancelar Agendamento</button>
-          `;
-          agendamentosList.appendChild(card);
+function getStatusClass(status) {
+    const statusClasses = {
+        'PENDENTE': 'status-pendente',
+        'CONFIRMADO': 'status-confirmado',
+        'CANCELADO': 'status-cancelado'
+    };
+    return statusClasses[status] || 'status-pendente';
+}
+
+async function deletarEvento(id) {
+    if (!confirm('Tem certeza que deseja excluir este evento?')) return;
+
+    try {
+        const response = await fetch(`/api/eventos/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
-      }
-    }
 
-    async function confirmarCancelamento(idAgendamento) {
-      if (confirm('Tem certeza que deseja cancelar este agendamento?')) {
-        try {
-          console.log(`Agendamento com ID ${idAgendamento} cancelado (simulado).`);
-          alert('Agendamento cancelado com sucesso!');
-          carregarAgendamentos();
-        } catch (error) {
-          console.error('Erro ao cancelar agendamento:', error);
-          alert('Erro ao cancelar agendamento. Tente novamente.');
+        if (!response.ok) {
+            throw new Error('Erro ao excluir evento');
         }
-      }
+
+        mostrarMensagem('Evento excluído com sucesso!', 'sucesso');
+        carregarEventos();
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarMensagem('Erro ao excluir evento. Tente novamente.', 'erro');
     }
+}
 
-    document.addEventListener('DOMContentLoaded', carregarAgendamentos);
-  </script>
+async function editarEvento(id) {
+    try {
+        const response = await fetch(`/api/eventos/${id}`);
+        if (!response.ok) {
+            throw new Error('Erro ao buscar dados do evento');
+        }
+        
+        const evento = await response.json();
+        window.location.href = `/eventoEditar/${id}`;
+    } catch (error) {
+        console.error('Erro:', error);
+        mostrarMensagem('Erro ao editar evento. Tente novamente.', 'erro');
+    }
+}
 
+function mostrarMensagem(texto, tipo) {
+    const mensagem = document.getElementById('mensagem');
+    mensagem.textContent = texto;
+    mensagem.className = `mensagem ${tipo}`;
+    mensagem.style.display = 'block';
+
+    setTimeout(() => {
+        mensagem.style.display = 'none';
+    }, 3000);
+}
+</script>
 </body>
 </html>
