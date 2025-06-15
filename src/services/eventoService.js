@@ -1,4 +1,4 @@
-const db = require('../config/database');
+const db = require("../config/database");
 
 const eventoService = {
   async listarTodos() {
@@ -38,45 +38,41 @@ const eventoService = {
     return result.rows;
   },
 
-  async criar({ titulo, data, horario, preco_unitario, cliente_id }) {
-    const clienteCheck = await db.query('SELECT id FROM clientes WHERE id = $1', [cliente_id]);
-    if (clienteCheck.rows.length === 0) {
-      throw new Error('Cliente não encontrado');
-    }
+  async criar({ titulo, data, horario, preco_unitario, cliente_id, tipo_evento, local, numero_convidados, descricao, observacoes }) {
 
     const query = `
-      INSERT INTO eventos (titulo, data, horario, preco_unitario, cliente_id)
-      VALUES ($1, $2, $3, $4, $5)
+      INSERT INTO eventos (titulo, data, horario, preco_unitario, cliente_id, tipo_evento, local, numero_convidados, descricao, observacoes)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
       RETURNING *
     `;
-    const values = [titulo, data, horario, preco_unitario, cliente_id];
+    const values = [titulo, data, horario, preco_unitario, cliente_id, tipo_evento, local, numero_convidados, descricao, observacoes];
     const result = await db.query(query, values);
     return result.rows[0];
   },
 
-  async atualizar(id, { titulo, data, horario, preco_unitario }) {
+  async atualizar(id, { titulo, data, horario, preco_unitario, tipo_evento, local, numero_convidados, descricao, observacoes }) {
     const query = `
       UPDATE eventos 
-      SET titulo = $1, data = $2, horario = $3, preco_unitario = $4
+      SET titulo = $1, data = $2, horario = $3, preco_unitario = $4, tipo_evento = $6, local = $7, numero_convidados = $8, descricao = $9, observacoes = $10
       WHERE id = $5
       RETURNING *
     `;
-    const result = await db.query(query, [titulo, data, horario, preco_unitario, id]);
+    const result = await db.query(query, [titulo, data, horario, preco_unitario, id, tipo_evento, local, numero_convidados, descricao, observacoes]);
     return result.rows[0];
   },
 
   async deletar(id) {
     const client = await db.connect();
     try {
-      await client.query('BEGIN');
-      await client.query('DELETE FROM evento_funcionario WHERE evento_id = $1', [id]);
-      await client.query('DELETE FROM evento_servico WHERE evento_id = $1', [id]);
-      await client.query('DELETE FROM agendamentos WHERE evento_id = $1', [id]);
-      const result = await client.query('DELETE FROM eventos WHERE id = $1 RETURNING *', [id]);
-      await client.query('COMMIT');
+      await client.query("BEGIN");
+      await client.query("DELETE FROM evento_funcionario WHERE evento_id = $1", [id]);
+      await client.query("DELETE FROM evento_servico WHERE evento_id = $1", [id]);
+      await client.query("DELETE FROM agendamentos WHERE evento_id = $1", [id]);
+      const result = await client.query("DELETE FROM eventos WHERE id = $1 RETURNING *", [id]);
+      await client.query("COMMIT");
       return result.rows[0];
     } catch (err) {
-      await client.query('ROLLBACK');
+      await client.query("ROLLBACK");
       throw err;
     } finally {
       client.release();
@@ -84,11 +80,11 @@ const eventoService = {
   },
 
   async adicionarFuncionario(eventoId, funcionarioId) {
-    const eventoCheck = await db.query('SELECT id FROM eventos WHERE id = $1', [eventoId]);
-    const funcionarioCheck = await db.query('SELECT id FROM funcionarios WHERE id = $1', [funcionarioId]);
+    const eventoCheck = await db.query("SELECT id FROM eventos WHERE id = $1", [eventoId]);
+    const funcionarioCheck = await db.query("SELECT id FROM funcionarios WHERE id = $1", [funcionarioId]);
 
-    if (eventoCheck.rows.length === 0) throw new Error('Evento não encontrado');
-    if (funcionarioCheck.rows.length === 0) throw new Error('Funcionário não encontrado');
+    if (eventoCheck.rows.length === 0) throw new Error("Evento não encontrado");
+    if (funcionarioCheck.rows.length === 0) throw new Error("Funcionário não encontrado");
 
     await db.query(`
       INSERT INTO evento_funcionario (evento_id, funcionario_id)
@@ -99,7 +95,7 @@ const eventoService = {
 
   async removerFuncionario(eventoId, funcionarioId) {
     await db.query(
-      'DELETE FROM evento_funcionario WHERE evento_id = $1 AND funcionario_id = $2',
+      "DELETE FROM evento_funcionario WHERE evento_id = $1 AND funcionario_id = $2",
       [eventoId, funcionarioId]
     );
   },
@@ -115,11 +111,11 @@ const eventoService = {
   },
 
   async adicionarServico(eventoId, servicoId) {
-    const eventoCheck = await db.query('SELECT id FROM eventos WHERE id = $1', [eventoId]);
-    const servicoCheck = await db.query('SELECT id FROM servicos WHERE id = $1', [servicoId]);
+    const eventoCheck = await db.query("SELECT id FROM eventos WHERE id = $1", [eventoId]);
+    const servicoCheck = await db.query("SELECT id FROM servicos WHERE id = $1", [servicoId]);
 
-    if (eventoCheck.rows.length === 0) throw new Error('Evento não encontrado');
-    if (servicoCheck.rows.length === 0) throw new Error('Serviço não encontrado');
+    if (eventoCheck.rows.length === 0) throw new Error("Evento não encontrado");
+    if (servicoCheck.rows.length === 0) throw new Error("Serviço não encontrado");
 
     await db.query(`
       INSERT INTO evento_servico (evento_id, servico_id)
@@ -130,7 +126,7 @@ const eventoService = {
 
   async removerServico(eventoId, servicoId) {
     await db.query(
-      'DELETE FROM evento_servico WHERE evento_id = $1 AND servico_id = $2',
+      "DELETE FROM evento_servico WHERE evento_id = $1 AND servico_id = $2",
       [eventoId, servicoId]
     );
   },
