@@ -1,51 +1,61 @@
+const Joi = require("joi");
+const db = require("../config/database");
+
+const servicoSchema = Joi.object({
+  tipo: Joi.string().max(100).required(),
+  custo: Joi.number().positive().precision(2).required(),
+});
+
 class Servico {
-    constructor(db) {
-        this.db = db;
+  static async create(servicoData) {
+    const { error } = servicoSchema.validate(servicoData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
+    const { tipo, custo } = servicoData;
+    const result = await db.query(
+      "INSERT INTO servicos (tipo, custo) VALUES ($1, $2) RETURNING *",
+      [tipo, custo]
+    );
+    return result.rows[0];
+  }
 
-    async criar(dados) {
-        const query = `
-            INSERT INTO servicos (tipo, custo)
-            VALUES ($1, $2) RETURNING *
-        `;
-        const result = await this.db.query(query, [dados.tipo, dados.custo]);
-        return result.rows[0];
-    }
+  static async getAll() {
+    const result = await db.query("SELECT * FROM servicos ORDER BY tipo");
+    return result.rows;
+  }
 
-    async buscarTodos() {
-        const query = 'SELECT * FROM servicos ORDER BY tipo';
-        const result = await this.db.query(query);
-        return result.rows;
-    }
+  static async getById(id) {
+    const result = await db.query("SELECT * FROM servicos WHERE id = $1", [id]);
+    return result.rows[0];
+  }
 
-    async buscarPorId(id) {
-        const query = 'SELECT * FROM servicos WHERE id = $1';
-        const result = await this.db.query(query, [id]);
-        return result.rows[0];
+  static async update(id, servicoData) {
+    const { error } = servicoSchema.validate(servicoData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
+    const { tipo, custo } = servicoData;
+    const result = await db.query(
+      "UPDATE servicos SET tipo = $1, custo = $2 WHERE id = $3 RETURNING *",
+      [tipo, custo, id]
+    );
+    return result.rows[0];
+  }
 
-    async atualizar(id, dados) {
-        const query = `
-            UPDATE servicos 
-            SET tipo = $1, custo = $2
-            WHERE id = $3 RETURNING *
-        `;
-        const result = await this.db.query(query, [dados.tipo, dados.custo, id]);
-        return result.rows[0];
-    }
+  static async delete(id) {
+    await db.query("DELETE FROM servicos WHERE id = $1", [id]);
+  }
 
-    async deletar(id) {
-        const query = 'DELETE FROM servicos WHERE id = $1';
-        await this.db.query(query, [id]);
-    }
-
-    async calcularCustoTotal(servicoIds) {
-        const query = `
-            SELECT SUM(custo) as total 
-            FROM servicos 
-            WHERE id = ANY($1)
-        `;
-        const result = await this.db.query(query, [servicoIds]);
-        return parseFloat(result.rows[0].total) || 0;
-    }
+  static async calcularCustoTotal(servicoIds) {
+    const query = `
+      SELECT SUM(custo) as total 
+      FROM servicos 
+      WHERE id = ANY($1)
+    `;
+    const result = await db.query(query, [servicoIds]);
+    return parseFloat(result.rows[0].total) || 0;
+  }
 }
+
+module.exports = Servico;
