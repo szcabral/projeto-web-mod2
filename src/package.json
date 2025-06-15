@@ -1,5 +1,5 @@
 {
-  "name": "mvc-boilerplate",
+  "name": "fresh-muse-boilerplate",
   "version": "1.0.0",
   "description": "Boilerplate para estrutura MVC em JavaScript com PostgreSQL e testes",
   "main": "server.js",
@@ -8,7 +8,8 @@
     "dev": "nodemon server.js",
     "test": "jest",
     "test:coverage": "jest --coverage",
-    "init-db": "node scripts/runSQLScript.js"
+    "init-db": "node scripts/runSQLScript.js",
+    "seed": "node seed.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
@@ -25,3 +26,5 @@
     "supertest": "^6.1.3"
   }
 }
+
+
