@@ -1,93 +1,54 @@
-const ClienteService = require('../services/clienteService');
-const bcrypt = require('bcrypt');
+const ClienteModel = require("../models/clienteModel");
 
 class ClienteController {
-  static async criar(req, res) {
-    try {
-      const { nome, email, telefone, cpf, senha } = req.body;
-      if (!nome || !email || !cpf || !senha) {
-        return res.status(400).json({ erro: 'Campos obrigatórios: nome, email, cpf, senha' });
-      }
-      const senhaHash = await bcrypt.hash(senha, 10);
-      const novoCliente = await ClienteService.criar({ nome, email, telefone, cpf, senha: senhaHash });
-      delete novoCliente.senha;
-      res.status(201).json({ sucesso: true, cliente: novoCliente });
-    } catch (error) {
-      res.status(400).json({ erro: 'Erro ao criar cliente', detalhes: error.message });
-    }
-  }
-
   static async listar(req, res) {
     try {
-      const clientes = await ClienteService.buscarTodos();
-      const clientesSemSenha = clientes.map(cliente => {
-        delete cliente.senha;
-        return cliente;
-      });
-      res.json({ sucesso: true, clientes: clientesSemSenha });
+      const clientes = await ClienteModel.getAll();
+      res.json(clientes);
     } catch (error) {
-      res.status(500).json({ erro: 'Erro ao buscar clientes', detalhes: error.message });
+      res.status(500).json({ erro: "Erro ao listar clientes" });
     }
   }
 
   static async buscarPorId(req, res) {
     try {
-      const { id } = req.params;
-      const cliente = await ClienteService.buscarPorId(id);
-      if (!cliente) {
-        return res.status(404).json({ erro: 'Cliente não foi encontrado' });
-      }
-      delete cliente.senha;
-      res.json({ sucesso: true, cliente });
+      const cliente = await ClienteModel.getById(req.params.id);
+      if (!cliente) return res.status(404).json({ erro: "Cliente não foi encontrado" });
+      res.json(cliente);
     } catch (error) {
-      res.status(500).json({ erro: 'Erro ao buscar cliente', detalhes: error.message });
+      res.status(500).json({ erro: "Erro na busca de cliente" });
+    }
+  }
+
+  static async criar(req, res) {
+    try {
+      const novoCliente = await ClienteModel.create(req.body);
+      res.status(201).json(novoCliente);
+    } catch (error) {
+      res.status(500).json({ erro: "Erro ao criar cliente" });
     }
   }
 
   static async atualizar(req, res) {
     try {
-      const { id } = req.params;
-      const { nome, email, telefone, cpf } = req.body;
-      const clienteAtualizado = await ClienteService.atualizar(id, { nome, email, telefone, cpf });
-      if (!clienteAtualizado) {
-        return res.status(404).json({ erro: 'Cliente não foi encontrado' });
-      }
-      delete clienteAtualizado.senha;
-      res.json({ sucesso: true, cliente: clienteAtualizado });
+      const clienteAtualizado = await ClienteModel.update(req.params.id, req.body);
+      res.json(clienteAtualizado);
     } catch (error) {
-      res.status(400).json({ erro: 'Erro ao atualizar cliente', detalhes: error.message });
+      res.status(500).json({ erro: "Erro no atualizar cliente" });
     }
   }
 
   static async deletar(req, res) {
     try {
-      const { id } = req.params;
-      await ClienteService.deletar(id);
-      res.json({ sucesso: true, mensagem: 'Cliente deletado com sucesso' });
+      await ClienteModel.delete(req.params.id);
+      res.status(204).end();
     } catch (error) {
-      res.status(500).json({ erro: 'Erro ao deletar cliente', detalhes: error.message });
+      res.status(500).json({ erro: "Erro ao deletar cliente" });
     }
   }
 
   static async login(req, res) {
-    try {
-      const { email, senha } = req.body;
-      if (!email || !senha) {
-        return res.status(400).json({ erro: 'Email e senha são obrigatórios' });
-      }
-      const cliente = await ClienteService.buscarPorEmail(email);
-      if (!cliente) {
-        return res.status(401).json({ erro: 'Credenciais inválidas' });
-      }
-      const senhaValida = await bcrypt.compare(senha, cliente.senha);
-      if (!senhaValida) {
-        return res.status(401).json({ erro: 'Credenciais inválidas' });
-      }
-      delete cliente.senha;
-      res.json({ sucesso: true, cliente, mensagem: 'Login realizado com sucesso' });
-    } catch (error) {
-      res.status(500).json({ erro: 'Erro ao fazer login', detalhes: error.message });
-    }
+    res.status(501).json({ mensagem: "Funcionalidade de login não implementada." });
   }
 }
 
