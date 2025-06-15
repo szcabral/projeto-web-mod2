@@ -30,7 +30,12 @@ CREATE TABLE eventos (
     data DATE NOT NULL,
     horario TIME NOT NULL,
     preco_unitario DECIMAL(10,2),
-    cliente_id INT REFERENCES clientes(id) -- relacionamento: CLIENTES realiza EVENTOS
+    cliente_id INT REFERENCES clientes(id),
+    tipo_evento VARCHAR(50),
+    local VARCHAR(255),
+    numero_convidados INT,
+    descricao TEXT,
+    observacoes TEXT
 );
 
 -- Tabela de AGENDAMENTOS
@@ -41,7 +46,7 @@ CREATE TABLE agendamentos (
     horario TIME NOT NULL,
     data DATE NOT NULL,
     funcionario_id INT REFERENCES funcionarios(id),
-    evento_id INT REFERENCES eventos(id) -- relacionamento: EVENTOS preenche AGENDAMENTOS
+    evento_id INT REFERENCES eventos(id)
 );
 
 -- Tabela de ligação: FUNCIONARIOS organizam EVENTOS (n:n)
@@ -57,3 +62,5 @@ CREATE TABLE evento_servico (
     servico_id INT REFERENCES servicos(id),
     PRIMARY KEY (evento_id, servico_id)
 );
+
+
