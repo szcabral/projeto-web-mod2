@@ -13,19 +13,12 @@
       font-family: 'Montserrat', sans-serif;
       background: linear-gradient(180deg, #fa746f 30%, #D5605E 100%);
       color: #fff;
-    }
-
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
-      box-sizing: border-box;
+      padding: 2rem 0;
     }
 
     .logo {
-      margin-bottom: 40px;
       text-align: center;
+      margin-bottom: 30px;
     }
 
     .logo img {
@@ -175,7 +168,7 @@
     <img src="../assets/fresh_muse_logo.png" alt="Fresh Muse Logo" />
   </div>
 
-  <a href="javascript:history.back()" class="btn-voltar">Voltar</a>
+  <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
 
   <h1>Meus Agendamentos</h1>
 
@@ -186,119 +179,8 @@
     Você ainda não possui agendamentos.
   </div>
 
-<script>
-async function carregarEventos() {
-    try {
-        const response = await fetch('/api/eventos');
-        if (!response.ok) {
-            throw new Error('Erro ao buscar eventos');
-        }
-        
-        const eventos = await response.json();
-        const containerEventos = document.querySelector('.eventos-container');
-        
-        if (eventos.length === 0) {
-            containerEventos.innerHTML = '<p>Nenhum evento encontrado.</p>';
-            return;
-        }
+<script src="/js/fresh-muse-api.js"></script>
+<script src="/js/meus-eventos-cliente.js"></script>
 
-        containerEventos.innerHTML = eventos.map(evento => `
-            <div class="evento-card">
-                <div class="evento-header">
-                    <h3>${evento.titulo}</h3>
-                    <div class="evento-acoes">
-                        <button onclick="editarEvento(${evento.id})" class="btn-editar">
-                            <i class="fas fa-edit"></i> Editar
-                        </button>
-                        <button onclick="deletarEvento(${evento.id})" class="btn-deletar">
-                            <i class="fas fa-trash"></i> Excluir
-                        </button>
-                    </div>
-                </div>
-                <div class="evento-detalhes">
-                    <p><strong>Data:</strong> ${formatarData(evento.data)}</p>
-                    <p><strong>Descrição:</strong> ${evento.descricao || 'Sem descrição'}</p>
-                    <p><strong>Status:</strong> 
-                        <span class="${getStatusClass(evento.status)}">
-                            ${evento.status}
-                        </span>
-                    </p>
-                </div>
-            </div>
-        `).join('');
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarMensagem('Erro ao carregar eventos. Tente novamente.', 'erro');
-    }
-}
-
-function formatarData(data) {
-    return new Date(data).toLocaleDateString('pt-BR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-    });
-}
-
-function getStatusClass(status) {
-    const statusClasses = {
-        'PENDENTE': 'status-pendente',
-        'CONFIRMADO': 'status-confirmado',
-        'CANCELADO': 'status-cancelado'
-    };
-    return statusClasses[status] || 'status-pendente';
-}
-
-async function deletarEvento(id) {
-    if (!confirm('Tem certeza que deseja excluir este evento?')) return;
-
-    try {
-        const response = await fetch(`/api/eventos/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Erro ao excluir evento');
-        }
-
-        mostrarMensagem('Evento excluído com sucesso!', 'sucesso');
-        carregarEventos();
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarMensagem('Erro ao excluir evento. Tente novamente.', 'erro');
-    }
-}
-
-async function editarEvento(id) {
-    try {
-        const response = await fetch(`/api/eventos/${id}`);
-        if (!response.ok) {
-            throw new Error('Erro ao buscar dados do evento');
-        }
-        
-        const evento = await response.json();
-        window.location.href = `/eventoEditar/${id}`;
-    } catch (error) {
-        console.error('Erro:', error);
-        mostrarMensagem('Erro ao editar evento. Tente novamente.', 'erro');
-    }
-}
-
-function mostrarMensagem(texto, tipo) {
-    const mensagem = document.getElementById('mensagem');
-    mensagem.textContent = texto;
-    mensagem.className = `mensagem ${tipo}`;
-    mensagem.style.display = 'block';
-
-    setTimeout(() => {
-        mensagem.style.display = 'none';
-    }, 3000);
-}
-</script>
 </body>
 </html>
