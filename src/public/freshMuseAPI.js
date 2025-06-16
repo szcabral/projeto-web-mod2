@@ -185,14 +185,13 @@ class FreshMuseAPI {
 
 class UIUtils {
     static showMessage(message, type = 'info') {
-
         const existingMessages = document.querySelectorAll('.fresh-muse-message');
         existingMessages.forEach(msg => msg.remove());
 
         const messageDiv = document.createElement('div');
         messageDiv.className = `fresh-muse-message fresh-muse-message-${type}`;
         messageDiv.textContent = message;
-
+        
         messageDiv.style.cssText = `
             position: fixed;
             top: 20px;
@@ -289,7 +288,6 @@ class UIUtils {
     }
 
     static isValidCPF(cpf) {
-
         cpf = cpf.replace(/[^\d]/g, '');
         
         if (cpf.length !== 11) return false;
