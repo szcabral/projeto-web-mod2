@@ -1,51 +1,54 @@
-const ClienteModel = require('../models/clienteModel');
+const Joi = require("joi");
+const db = require("../config/database");
 
-class ClienteController {
-  static async listar(req, res) {
-    try {
-      const clientes = await ClienteModel.getAll();
-      res.json(clientes);
-    } catch (error) {
-      res.status(500).json({ erro: 'Erro ao listar clientes' });
+const clienteSchema = Joi.object({
+  nome: Joi.string().min(3).max(100).required(),
+  email: Joi.string().email().max(100).required(),
+  telefone: Joi.string().max(20).allow(null, ""),
+  cpf: Joi.string().pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/).max(14).required(),
+  senha: Joi.string().min(6).required(),
+});
+
+class Cliente {
+  static async create(clienteData) {
+    const { error } = clienteSchema.validate(clienteData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
+    const { nome, email, telefone, cpf, senha } = clienteData;
+    const result = await db.query(
+      "INSERT INTO clientes (nome, email, telefone, cpf, senha) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+      [nome, email, telefone, cpf, senha]
+    );
+    return result.rows[0];
   }
 
-  static async buscarPorId(req, res) {
-    try {
-      const cliente = await ClienteModel.getById(req.params.id);
-      if (!cliente) return res.status(404).json({ erro: 'Cliente não foi encontrado' });
-      res.json(cliente);
-    } catch (error) {
-      res.status(500).json({ erro: 'Erro na busca de cliente' });
-    }
+  static async getAll() {
+    const result = await db.query("SELECT * FROM clientes");
+    return result.rows;
   }
 
-  static async criar(req, res) {
-    try {
-      const novoCliente = await ClienteModel.create(req.body);
-      res.status(201).json(novoCliente);
-    } catch (error) {
-      res.status(500).json({ erro: 'Erro ao criar cliente' });
-    }
+  static async getById(id) {
+    const result = await db.query("SELECT * FROM clientes WHERE id = $1", [id]);
+    return result.rows[0];
   }
 
-  static async atualizar(req, res) {
-    try {
-      const clienteAtualizado = await ClienteModel.update(req.params.id, req.body);
-      res.json(clienteAtualizado);
-    } catch (error) {
-      res.status(500).json({ erro: 'Erro no atualizar cliente' });
+  static async update(id, clienteData) {
+    const { error } = clienteSchema.validate(clienteData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
+    const { nome, email, telefone, cpf, senha } = clienteData;
+    const result = await db.query(
+      "UPDATE clientes SET nome = $1, email = $2, telefone = $3, cpf = $4, senha = $5 WHERE id = $6 RETURNING *",
+      [nome, email, telefone, cpf, senha, id]
+    );
+    return result.rows[0];
   }
 
-  static async deletar(req, res) {
-    try {
-      await ClienteModel.delete(req.params.id);
-      res.status(204).end();
-    } catch (error) {
-      res.status(500).json({ erro: 'Erro ao deletar cliente' });
-    }
+  static async delete(id) {
+    await db.query("DELETE FROM clientes WHERE id = $1", [id]);
   }
 }
 
-module.exports = ClienteController;
+module.exports = Cliente;
