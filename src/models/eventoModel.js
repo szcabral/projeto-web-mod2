@@ -1,129 +1,134 @@
+const Joi = require("joi");
+const db = require("../config/database");
+
+const eventoSchema = Joi.object({
+  titulo: Joi.string().min(3).max(100).required(),
+  data: Joi.date().iso().required(),
+  horario: Joi.string().pattern(/^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/).required(),
+  preco_unitario: Joi.number().positive().precision(2).allow(null),
+  cliente_id: Joi.number().integer().positive().required(),
+  tipo_evento: Joi.string().max(50).allow(null, ""),
+  local: Joi.string().max(255).allow(null, ""),
+  numero_convidados: Joi.number().integer().positive().allow(null),
+  descricao: Joi.string().max(1000).allow(null, ""),
+  observacoes: Joi.string().max(1000).allow(null, ""),
+});
+
 class Evento {
-    constructor(db) {
-        this.db = db;
+  static async create(eventoData) {
+    const { error } = eventoSchema.validate(eventoData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
+    const {
+      titulo,
+      data,
+      horario,
+      preco_unitario,
+      cliente_id,
+      tipo_evento,
+      local,
+      numero_convidados,
+      descricao,
+      observacoes,
+    } = eventoData;
+    const result = await db.query(
+      "INSERT INTO eventos (titulo, data, horario, preco_unitario, cliente_id, tipo_evento, local, numero_convidados, descricao, observacoes) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *",
+      [
+        titulo,
+        data,
+        horario,
+        preco_unitario,
+        cliente_id,
+        tipo_evento,
+        local,
+        numero_convidados,
+        descricao,
+        observacoes,
+      ]
+    );
+    return result.rows[0];
+  }
 
-    async criar(dados) {
-        const client = await this.db.connect();
-        try {
-            await client.query('BEGIN');
+  static async getAll() {
+    const query = `
+      SELECT 
+        e.id, e.titulo, e.data, e.horario, e.preco_unitario, e.tipo_evento, e.local, e.numero_convidados, e.descricao, e.observacoes,
+        c.nome as cliente_nome, c.email as cliente_email
+      FROM eventos e
+      JOIN clientes c ON e.cliente_id = c.id
+      ORDER BY e.data DESC, e.horario DESC
+    `;
+    const result = await db.query(query);
+    return result.rows;
+  }
 
-            // Criar evento
-            const eventoQuery = `
-                INSERT INTO eventos (titulo, data, horario, preco_unitario, cliente_id)
-                VALUES ($1, $2, $3, $4, $5) RETURNING *
-            `;
-            const eventoResult = await client.query(eventoQuery, [
-                dados.titulo, dados.data, dados.horario, dados.preco_unitario, dados.cliente_id
-            ]);
-            const evento = eventoResult.rows[0];
+  static async getById(id) {
+    const query = `
+      SELECT 
+        e.id, e.titulo, e.data, e.horario, e.preco_unitario, e.tipo_evento, e.local, e.numero_convidados, e.descricao, e.observacoes,
+        c.nome as cliente_nome, c.email as cliente_email, c.telefone as cliente_telefone
+      FROM eventos e
+      JOIN clientes c ON e.cliente_id = c.id
+      WHERE e.id = $1
+    `;
+    const result = await db.query(query, [id]);
+    return result.rows[0];
+  }
 
-            if (dados.funcionario_ids && dados.funcionario_ids.length > 0) {
-                for (const funcionarioId of dados.funcionario_ids) {
-                    await client.query(
-                        'INSERT INTO evento_funcionario (evento_id, funcionario_id) VALUES ($1, $2)',
-                        [evento.id, funcionarioId]
-                    );
-                }
-            }
-
-            if (dados.servico_ids && dados.servico_ids.length > 0) {
-                for (const servicoId of dados.servico_ids) {
-                    await client.query(
-                        'INSERT INTO evento_servico (evento_id, servico_id) VALUES ($1, $2)',
-                        [evento.id, servicoId]
-                    );
-                }
-            }
-
-            await client.query('COMMIT');
-            return evento;
-        } catch (error) {
-            await client.query('ROLLBACK');
-            throw error;
-        } finally {
-            client.release();
-        }
+  static async update(id, eventoData) {
+    const { error } = eventoSchema.validate(eventoData);
+    if (error) {
+      throw new Error(error.details[0].message);
     }
+    const {
+      titulo,
+      data,
+      horario,
+      preco_unitario,
+      cliente_id,
+      tipo_evento,
+      local,
+      numero_convidados,
+      descricao,
+      observacoes,
+    } = eventoData;
+    const result = await db.query(
+      "UPDATE eventos SET titulo = $1, data = $2, horario = $3, preco_unitario = $4, cliente_id = $5, tipo_evento = $6, local = $7, numero_convidados = $8, descricao = $9, observacoes = $10 WHERE id = $11 RETURNING *",
+      [
+        titulo,
+        data,
+        horario,
+        preco_unitario,
+        cliente_id,
+        tipo_evento,
+        local,
+        numero_convidados,
+        descricao,
+        observacoes,
+        id,
+      ]
+    );
+    return result.rows[0];
+  }
 
-    async buscarTodos() {
-        const query = `
-            SELECT e.*, c.nome as cliente_nome,
-                   COUNT(DISTINCT ef.funcionario_id) as total_funcionarios,
-                   COUNT(DISTINCT es.servico_id) as total_servicos
-            FROM eventos e
-            JOIN clientes c ON e.cliente_id = c.id
-            LEFT JOIN evento_funcionario ef ON e.id = ef.evento_id
-            LEFT JOIN evento_servico es ON e.id = es.evento_id
-            GROUP BY e.id, c.nome
-            ORDER BY e.data DESC
-        `;
-        const result = await this.db.query(query);
-        return result.rows;
+  static async delete(id) {
+    const client = await db.connect();
+    try {
+      await client.query("BEGIN");
+      await client.query("DELETE FROM evento_funcionario WHERE evento_id = $1", [id]);
+      await client.query("DELETE FROM evento_servico WHERE evento_id = $1", [id]);
+      await client.query("DELETE FROM agendamentos WHERE evento_id = $1", [id]);
+      const result = await client.query("DELETE FROM eventos WHERE id = $1 RETURNING *", [id]);
+      await client.query("COMMIT");
+      return result.rows[0];
+    } catch (err) {
+      await client.query("ROLLBACK");
+      throw err;
+    } finally {
+      client.release();
     }
-
-    async buscarPorId(id) {
-        const query = `
-            SELECT e.*, c.nome as cliente_nome, c.email as cliente_email
-            FROM eventos e
-            JOIN clientes c ON e.cliente_id = c.id
-            WHERE e.id = $1
-        `;
-        const result = await this.db.query(query, [id]);
-        return result.rows[0];
-    }
-
-    async buscarFuncionarios(eventoId) {
-        const query = `
-            SELECT f.* FROM funcionarios f
-            JOIN evento_funcionario ef ON f.id = ef.funcionario_id
-            WHERE ef.evento_id = $1
-        `;
-        const result = await this.db.query(query, [eventoId]);
-        return result.rows;
-    }
-
-    async buscarServicos(eventoId) {
-        const query = `
-            SELECT s.* FROM servicos s
-            JOIN evento_servico es ON s.id = es.servico_id
-            WHERE es.evento_id = $1
-        `;
-        const result = await this.db.query(query, [eventoId]);
-        return result.rows;
-    }
-
-    async atualizar(id, dados) {
-        const query = `
-            UPDATE eventos 
-            SET titulo = $1, data = $2, horario = $3, preco_unitario = $4
-            WHERE id = $5 RETURNING *
-        `;
-        const result = await this.db.query(query, [
-            dados.titulo, dados.data, dados.horario, dados.preco_unitario, id
-        ]);
-        return result.rows[0];
-    }
-
-    async deletar(id) {
-        const client = await this.db.connect();
-        try {
-            await client.query('BEGIN');
-            
-            // Remove associações
-            await client.query('DELETE FROM evento_funcionario WHERE evento_id = $1', [id]);
-            await client.query('DELETE FROM evento_servico WHERE evento_id = $1', [id]);
-            await client.query('UPDATE agendamentos SET evento_id = NULL WHERE evento_id = $1', [id]);
-            
-            // Remove evento
-            await client.query('DELETE FROM eventos WHERE id = $1', [id]);
-            
-            await client.query('COMMIT');
-        } catch (error) {
-            await client.query('ROLLBACK');
-            throw error;
-        } finally {
-            client.release();
-        }
-    }
+  }
 }
+
+module.exports = Evento;
