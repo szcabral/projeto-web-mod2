@@ -31,7 +31,8 @@ O projeto de desenvolvimento web Fresh Muse tem como objetivo de facilitar a ges
 
 ## 📝 Link de demonstração
 
-_Coloque aqui o link para seu projeto publicado e link para vídeo de demonstração_
+[Ver demonstração](https://drive.google.com/file/d/1NXIUpOujWuyi1eRfdeRQOC7mcXVRs7Bo/view?usp=sharing)
+
 
 ## 📁 Estrutura de pastas
 
@@ -81,15 +82,18 @@ Isso instalará todas as dependências definidas no arquivo <b>package.json</b> 
 
 ## 🗃 Histórico de lançamentos
 
-* 0.5.0 - XX/XX/2025
+* 0.5.0 - 13/06/2025
     * 
-* 0.4.0 - XX/XX/2025
-    * 
+        - Ajustando rotas da interface
+        - Arrumando models
+        - Configuração do banco de dados.
+        - Atualizando joi funcional.
+        - Vídeo de demonstração.
+
 * 0.3.0 - 09/06/2025
     - Construindo rotas de interface
     - Criando a identidade visual
     - Conectando banco de dados
-
     * 
 * 0.2.0 - 25/05/2025 : Segunda entrega da primeira ponderada de programação
 Atualização do read.me
