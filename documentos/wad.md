@@ -195,27 +195,33 @@ CREATE TABLE evento_servico (
 
 ### 3.7 Interface e Navegação (Semana 07)
 
-*Descreva e ilustre aqui o desenvolvimento do frontend do sistema web, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+Foi desenvolvido o frontend da aplicação web Fresh Muse, com foco na construção de páginas funcionais e visualmente agradáveis, alinhadas à identidade da plataforma. A interface foi criada utilizando HTML, CSS e JavaScript, com atenção à responsividade e à experiência do usuário.
 
----
+Foram entregues as seguintes telas principais:
+
+Página inicial com botões de acesso para Clientes e Funcionários, apresentando uma navegação clara e estilo visual condizente com a proposta da marca.
+
+
+Dashboard do cliente, onde é possível visualizar e criar eventos, com campos funcionais para preencher os dados necessários.
+
+Visualização de eventos disponíveis para funcionários, com estrutura de calendário e botão para seleção de evento desejado.
+
+Tela de perfil do funcionário, com dados básicos e acesso ao seu evento de trabalho atual.
+
+A navegação entre as páginas foi feita com rotas simples em JavaScript, sem frameworks, priorizando leveza e controle direto sobre os componentes. A estrutura do frontend foi organizada para facilitar integrações com o backend.
 
 ## <a name="c4"></a>4. Desenvolvimento da Aplicação Web (Semana 8)
 
 ### 4.1 Demonstração do Sistema Web (Semana 8)
 
-*VIDEO: Insira o link do vídeo demonstrativo nesta seção*
-*Descreva e ilustre aqui o desenvolvimento do sistema web completo, explicando brevemente o que foi entregue em termos de código e sistema. Utilize prints de tela para ilustrar.*
+[Ver demonstração](https://drive.google.com/file/d/1NXIUpOujWuyi1eRfdeRQOC7mcXVRs7Bo/view?usp=sharing)
 
 ### 4.2 Conclusões e Trabalhos Futuros (Semana 8)
 
-*Indique pontos fortes e pontos a melhorar de maneira geral.*
-*Relacione também quaisquer outras ideias que você tenha para melhorias futuras.*
+O projeto individual da aplicação web Fresh Muse teve como destaque o capricho visual: o site está visualmente adequado para a experiência do usuário, com uma identidade visual coerente e uma interface intuitiva, que transmite bem a proposta da plataforma. Também houve dedicação no desenvolvimento, com implementação funcional das principais rotas e uma estrutura básica em MVC, além da utilização de tecnologias adequadas como JavaScript e PostgreSQL.
+
+Por outro lado, a modelagem do banco de dados ainda pode ser melhorada, especialmente no que diz respeito à clareza nas relações entre entidades e à normalização de algumas tabelas. Alguns fluxos mais complexos, como o agendamento de funcionários, poderiam ser mais bem estruturados. Ainda assim, o resultado entrega uma aplicação funcional e bem apresentada, com potencial para evoluir em termos técnicos à medida que for refinada como aplicação de login de cliente e funcionário.
 
 
 
 ## <a name="c5"></a>5. Referências
-
-_Incluir as principais referências de seu projeto, para que o leitor possa consultar caso ele se interessar em aprofundar._<br>
-
----
----
